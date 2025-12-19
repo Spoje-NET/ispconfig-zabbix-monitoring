@@ -251,12 +251,12 @@ class ISPConfigClient
     }
 
     /**
-     * Generic method to call any ISPConfig API function
+     * Call an ISPConfig SOAP API method using the client's session and retry logic.
      *
-     * @param string $method SOAP method name
-     * @param array $params Method parameters (excluding session ID)
-     * @return mixed
-     * @throws ISPConfigException
+     * @param string $method SOAP method name to invoke.
+     * @param array $params Parameters for the method (the session ID is prepended automatically).
+     * @return mixed The raw result returned by the SOAP method.
+     * @throws ISPConfigException If the API call fails after retry attempts.
      */
     public function call(string $method, array $params = [])
     {
@@ -273,10 +273,10 @@ class ISPConfigClient
     }
 
     /**
-     * Get all email accounts from ISPConfig
+     * Retrieve all active email accounts from ISPConfig.
      *
-     * @return array Array of email records
-     * @throws ISPConfigException
+     * @return array An array of email account records; empty array if none are found.
+     * @throws ISPConfigException If the API call fails or cannot be completed.
      */
     public function getEmails(): array
     {
@@ -294,11 +294,11 @@ class ISPConfigClient
     }
 
     /**
-     * Get a specific email account by ID
+     * Retrieve a mail user by its ID.
      *
-     * @param int $emailId
-     * @return array|null Email record or null if not found
-     * @throws ISPConfigException
+     * @param int $emailId The mail user ID to fetch.
+     * @return array|null Email record as an associative array if found, `null` otherwise.
+     * @throws ISPConfigException If the API call fails.
      */
     public function getEmail(int $emailId): ?array
     {
@@ -320,10 +320,12 @@ class ISPConfigClient
     }
 
     /**
-     * Get all mail domains from ISPConfig
+     * Retrieve active mail domains from ISPConfig.
      *
-     * @return array Array of mail domain records
-     * @throws ISPConfigException
+     * Returns a list of mail domain records (empty array if none are found).
+     *
+     * @return array An array of mail domain records.
+     * @throws ISPConfigException If the SOAP request fails.
      */
     public function getMailDomains(): array
     {
@@ -341,11 +343,11 @@ class ISPConfigClient
     }
 
     /**
-     * Get a specific mail domain by ID
+     * Retrieve a mail domain record by its ID.
      *
-     * @param int $domainId
-     * @return array|null Mail domain record or null if not found
-     * @throws ISPConfigException
+     * @param int $domainId The mail domain ID to fetch.
+     * @return array|null An associative array representing the mail domain record, or `null` if no record was found.
+     * @throws ISPConfigException If the SOAP request fails or an error occurs while fetching the domain.
      */
     public function getMailDomain(int $domainId): ?array
     {
@@ -367,12 +369,12 @@ class ISPConfigClient
     }
 
     /**
-     * Get mail domain statistics
-     *
-     * @param int $domainId
-     * @return array Statistics data
-     * @throws ISPConfigException
-     */
+         * Retrieve statistics for a mail domain.
+         *
+         * @param int $domainId The mail domain's ID.
+         * @return array An associative array of statistics for the mail domain, or an empty array if no data is returned.
+         * @throws ISPConfigException If the API call fails.
+         */
     public function getMailDomainStats(int $domainId): array
     {
         $sessionId = $this->login();

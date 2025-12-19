@@ -37,7 +37,12 @@ use ISPConfigMonitoring\ISPConfigException;
 use ISPConfigMonitoring\ZabbixHelper;
 
 /**
- * Enhance mail domain data with additional calculated fields
+ * Ensure each mail domain record includes a `mail_catchall` field.
+ *
+ * If a record does not contain `mail_catchall`, the field is added with an empty string value.
+ *
+ * @param array $domains Array of mail domain records (associative arrays).
+ * @return array The input records with `mail_catchall` guaranteed to exist on each entry.
  */
 function enrichMailDomainData(array $domains): array
 {
