@@ -41,7 +41,14 @@ use ISPConfigMonitoring\ISPConfigException;
 use ISPConfigMonitoring\ZabbixHelper;
 
 /**
- * Enhance email data with additional calculated fields
+ * Add an integer `usage_percent` field to each email entry based on `used` and `quota`.
+ *
+ * Each input entry is preserved and augmented with `usage_percent` set to the integer
+ * percentage of `used` divided by `quota` when `quota` is greater than zero; otherwise
+ * `usage_percent` is set to 0.
+ *
+ * @param array $emails List of email records. Individual records may include `quota` and `used` keys.
+ * @return array The list of email records with an added `usage_percent` integer field for each record.
  */
 function enrichEmailData(array $emails): array
 {

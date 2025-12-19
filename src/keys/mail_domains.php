@@ -29,7 +29,9 @@ use ISPConfigMonitoring\ISPConfigException;
 use ISPConfigMonitoring\ZabbixHelper;
 
 /**
- * Display usage information
+ * Prints usage instructions for mail_domains.php and the list of available keys.
+ *
+ * Outputs the usage message to standard output and terminates the process with exit status 1.
  */
 function showUsage(): void
 {
@@ -46,7 +48,22 @@ function showUsage(): void
 }
 
 /**
- * Get account count and totals for a mail domain
+ * Compute mail account count and aggregated quota/usage for a mail domain.
+ *
+ * Queries ISPConfig for all mail accounts belonging to the given domain and
+ * returns counts and totals. If the API response is invalid or an error
+ * occurs, returns zeroed statistics.
+ *
+ * @param ISPConfigClient $ispconfig The ISPConfig API client used to fetch mail accounts.
+ * @param int $domainId The ID of the mail domain to inspect.
+ * @return array{
+ *     account_count: int,
+ *     total_quota: int,
+ *     total_used: int
+ * } Associative array containing:
+ *   - `account_count`: number of mail accounts for the domain.
+ *   - `total_quota`: sum of the `quota` values across accounts (as integer).
+ *   - `total_used`: sum of the `used` values across accounts (as integer).
  */
 function getMailDomainStats(ISPConfigClient $ispconfig, int $domainId): array
 {
@@ -79,7 +96,13 @@ function getMailDomainStats(ISPConfigClient $ispconfig, int $domainId): array
 }
 
 /**
- * Get value from mail domain data by key
+ * Map a mail domain attribute or metric key to a formatted value for Zabbix.
+ *
+ * @param array $domain Mail domain record (fields used: 'active', 'domain', 'server_id', 'mail_catchall').
+ * @param string $key The requested key (supported: 'active', 'domain', 'server_id', 'mail_catchall', 'account_count', 'total_quota', 'total_used').
+ * @param int $domainId Mail domain ID used when retrieving aggregated mail statistics.
+ * @return string The value formatted for Zabbix according to the key.
+ * @throws Exception If an unknown key is requested.
  */
 function getMailDomainValue(
     array $domain,

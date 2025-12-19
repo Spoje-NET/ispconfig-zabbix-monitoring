@@ -186,10 +186,13 @@ class ZabbixHelper
     }
 
     /**
-     * Parse bytes from human-readable format (e.g., "1.5G", "512M")
+     * Convert a numeric value or human-readable size string into an integer number of bytes.
      *
-     * @param mixed $value
-     * @return int Bytes
+     * Accepts plain numbers (interpreted as bytes) or strings with an optional unit suffix
+     * `B`, `K`, `M`, `G`, `T` (case-insensitive) and optional decimals (e.g., "1.5G", "512M").
+     *
+     * @param mixed $value The value to parse (number or size string).
+     * @return int Integer number of bytes; returns 0 if the value cannot be parsed.
      */
     private function parseBytes($value): int
     {
@@ -210,10 +213,10 @@ class ZabbixHelper
     }
 
     /**
-     * Format emails for Zabbix LLD
+     * Builds Zabbix low-level discovery data for email accounts.
      *
-     * @param array $emails Array of email records from ISPConfig
-     * @return array Formatted discovery data
+     * @param array $emails List of email records (ISPConfig format) to convert into discovery items.
+     * @return array An array with a 'data' key containing discovery items where each item maps Zabbix macros (e.g. `{#EMAIL}`, `{#QUOTA}`) to their values.
      */
     public function formatEmailsDiscovery(array $emails): array
     {
@@ -231,11 +234,11 @@ class ZabbixHelper
     }
 
     /**
-     * Format mail domains for Zabbix LLD
-     *
-     * @param array $domains Array of mail domain records from ISPConfig
-     * @return array Formatted discovery data
-     */
+         * Builds Zabbix Low-Level Discovery (LLD) data for mail domains.
+         *
+         * @param array $domains Mail domain records (each entry is an associative array from ISPConfig).
+         * @return array Discovery structure with a top-level `data` array of items containing macros like `{#MAIL_DOMAIN_ID}`, `{#DOMAIN}`, `{#SERVER_ID}`, `{#ACTIVE}`, and `{#CATCH_ALL}`.
+         */
     public function formatMailDomainsDiscovery(array $domains): array
     {
         $macroMap = [
@@ -250,12 +253,12 @@ class ZabbixHelper
     }
 
     /**
-     * Calculate email usage percentage
-     *
-     * @param int $used Used space in bytes
-     * @param int $quota Total quota in bytes
-     * @return float Usage percentage (0-100)
-     */
+         * Calculates email storage usage as a percentage of the quota.
+         *
+         * @param int $used Used space in bytes.
+         * @param int $quota Total quota in bytes.
+         * @return float Usage percentage between 0 and 100.
+         */
     public function calculateEmailUsagePercent(int $used, int $quota): float
     {
         if ($quota <= 0) {

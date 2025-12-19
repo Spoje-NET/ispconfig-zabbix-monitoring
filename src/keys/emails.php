@@ -33,7 +33,10 @@ use ISPConfigMonitoring\ISPConfigException;
 use ISPConfigMonitoring\ZabbixHelper;
 
 /**
- * Display usage information
+ * Print command-line usage and the list of supported keys for the emails key reader.
+ *
+ * Outputs usage instructions and available keys to stdout, then terminates the process
+ * with exit status code 1.
  */
 function showUsage(): void
 {
@@ -54,7 +57,20 @@ function showUsage(): void
 }
 
 /**
- * Get value from email data by key
+ * Retrieve a formatted value for an email record by key.
+ *
+ * @param array $email Email data array. Expected keys (when present): 
+ *                     'active' (string 'y'|'n'), 'email' (string), 'domain' (string),
+ *                     'quota' (int bytes), 'used' (int bytes),
+ *                     'spamfilter_enabled' (string 'y'|'n'), 'antivirus_enabled' (string 'y'|'n'),
+ *                     'mail_domain_id' (int), 'server_id' (int), 'homedir' (string).
+ * @param string $key The metric key to retrieve. Supported values: 
+ *                    'active', 'email', 'domain', 'quota', 'used', 'usage_percent',
+ *                    'spamfilter_enabled', 'antivirus_enabled', 'mail_domain_id',
+ *                    'server_id', 'homedir'.
+ * @param ZabbixHelper $zabbix Helper used to format returned values.
+ * @return string The value formatted for Zabbix corresponding to the requested key.
+ * @throws Exception If an unknown key is provided.
  */
 function getEmailValue(array $email, string $key, ZabbixHelper $zabbix): string
 {
