@@ -1,0 +1,25 @@
+{
+  "name": "deb/ispconfig-zabbix-monitoring",
+  "description": "Monitor your ISPConfig installation using Zabbix",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Vítězslav Dvořák",
+      "email": "info@vitexsoftware.cz"
+    }
+  ],
+  "config": {
+    "vendor-dir": "/var/lib/composer/ispconfig-zabbix-monitoring"
+  },
+  "require": {
+    "php": ">=7.4",
+    "ext-curl": "*",
+    "ext-yaml": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "ISPConfigMonitoring\\": "src/lib/"
+    }
+  },
+  "repositories": []
+}

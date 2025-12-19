@@ -1,0 +1,41 @@
+#!/bin/bash
+set -e
+
+# Test basic package installation and file presence
+test -f /usr/lib/abraflexi-zabbix/company_lld.php
+test -f /usr/lib/abraflexi-zabbix/system_status.php
+test -f /usr/lib/abraflexi-zabbix/cached_system_status.php
+test -f /usr/lib/abraflexi-zabbix/network_check.php
+test -f /usr/lib/abraflexi-zabbix/AbraFlexi/Zabbix/Feeder.php
+
+test -f /usr/bin/abraflexi-zabbix-lld-company
+test -f /usr/bin/abraflexi-zabbix-status
+test -f /usr/bin/abraflexi-zabbix-network
+
+# Test configuration file
+test -f /etc/abraflexi-zabbix/.env
+
+# Test commands with demo configuration
+export ABRAFLEXI_URL=https://demo.flexibee.eu:5434
+export ABRAFLEXI_LOGIN=winstrom
+export ABRAFLEXI_PASSWORD=winstrom
+
+echo "Testing command execution..."
+
+# Test system status command
+echo "Testing abraflexi-zabbix-status..."
+/usr/bin/abraflexi-zabbix-status --debug || echo "Status command test completed with exit code $?"
+
+# Test network check command
+echo "Testing abraflexi-zabbix-network..."
+/usr/bin/abraflexi-zabbix-network --debug || echo "Network command test completed with exit code $?"
+
+# Test company LLD command
+echo "Testing abraflexi-zabbix-lld-company..."
+/usr/bin/abraflexi-zabbix-lld-company --debug || echo "Company LLD command test completed with exit code $?"
+
+# Test color output
+echo "Testing color output..."
+/usr/bin/abraflexi-zabbix-status --debug --color || echo "Color output test completed with exit code $?"
+
+echo "Package installation and command tests completed"

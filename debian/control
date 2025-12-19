@@ -1,0 +1,13 @@
+Source: ispconfig-zabbix-monitoring
+Section: admin
+Priority: optional
+Maintainer: Spoje-NET <info@spoje.net>
+Build-Depends: debhelper (>= 12), composer
+Standards-Version: 4.5.1
+Homepage: https://github.com/Spoje-NET/ispconfig-zabbix-monitoring
+
+Package: ispconfig-zabbix-monitoring
+Architecture: all
+Depends: ${misc:Depends}, php, php-curl, php-yaml
+Description: Zabbix monitoring integration for ISPConfig
+ This package provides autodiscovery scripts, key readers, and Zabbix templates for monitoring ISPConfig installations via Zabbix.

@@ -1,0 +1,3 @@
+Tests: package-install
+Depends: @
+Restrictions: allow-stderr
