@@ -1,0 +1,222 @@
+zabbix_export:
+  version: '7.4'
+  template_groups:
+    - uuid: 7df96b18f23590f991812c9f04857890
+      name: 'ISPConfig'
+  templates:
+    - uuid: a571c0d144b241c89bc12e5e5e5b4c2a
+      template: 'ISPConfig Websites'
+      name: 'ISPConfig Websites Monitoring'
+      description: |
+        Template for monitoring ISPConfig websites
+        
+        This template discovers websites from ISPConfig and monitors:
+        - Website status (active/inactive)
+        - Domain information
+        - PHP version
+        - SSL configuration
+        - Disk usage and quotas
+        - Traffic statistics
+        
+        Requirements:
+        - ISPConfig 3.2+ with SOAP API enabled
+        - Zabbix Agent with UserParameter configured
+        - PHP 7.4+ with SOAP extension
+        
+        Author: ISPConfig Zabbix Monitoring Project
+        Version: 1.0.0
+      groups:
+        - name: 'ISPConfig'
+      discovery_rules:
+        - uuid: b8c4a59c4e8e4e7eb9b2c9f04857890a
+          name: 'ISPConfig Websites Discovery'
+          type: ZABBIX_ACTIVE
+          key: 'ispconfig.websites.discovery'
+          delay: 1h
+          lifetime: 7d
+          description: 'Discovers all websites configured in ISPConfig'
+          item_prototypes:
+            - uuid: c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6
+              name: 'Website {#DOMAIN}: Active Status'
+              type: ZABBIX_ACTIVE
+              key: 'ispconfig.website.active[{#WEBSITE_ID}]'
+              delay: 5m
+              history: 30d
+              trends: 90d
+              value_type: UNSIGNED
+              description: 'Active status of website {#DOMAIN}'
+              tags:
+                - tag: Application
+                  value: 'ISPConfig Websites'
+                - tag: Domain
+                  value: '{#DOMAIN}'
+              
+            - uuid: d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7
+              name: 'Website {#DOMAIN}: Domain'
+              type: ZABBIX_ACTIVE
+              key: 'ispconfig.website.domain[{#WEBSITE_ID}]'
+              delay: 1h
+              history: 7d
+              trends: '0'
+              value_type: CHAR
+              description: 'Domain name of website'
+              tags:
+                - tag: Application
+                  value: 'ISPConfig Websites'
+                - tag: Domain
+                  value: '{#DOMAIN}'
+              
+            - uuid: e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8
+              name: 'Website {#DOMAIN}: Server ID'
+              type: ZABBIX_ACTIVE
+              key: 'ispconfig.website.server_id[{#WEBSITE_ID}]'
+              delay: 1h
+              history: 30d
+              trends: 90d
+              value_type: UNSIGNED
+              description: 'Server ID where website is hosted'
+              tags:
+                - tag: Application
+                  value: 'ISPConfig Websites'
+                - tag: Domain
+                  value: '{#DOMAIN}'
+              
+            - uuid: f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9
+              name: 'Website {#DOMAIN}: PHP Version'
+              type: ZABBIX_ACTIVE
+              key: 'ispconfig.website.php_version[{#WEBSITE_ID}]'
+              delay: 1h
+              history: 30d
+              trends: '0'
+              value_type: CHAR
+              description: 'PHP version configured for website'
+              tags:
+                - tag: Application
+                  value: 'ISPConfig Websites'
+                - tag: Domain
+                  value: '{#DOMAIN}'
+              
+            - uuid: a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0
+              name: 'Website {#DOMAIN}: SSL Enabled'
+              type: ZABBIX_ACTIVE
+              key: 'ispconfig.website.ssl_enabled[{#WEBSITE_ID}]'
+              delay: 1h
+              history: 30d
+              trends: 90d
+              value_type: UNSIGNED
+              description: 'SSL/TLS status for website'
+              tags:
+                - tag: Application
+                  value: 'ISPConfig Websites'
+                - tag: Domain
+                  value: '{#DOMAIN}'
+              
+            - uuid: b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1
+              name: 'Website {#DOMAIN}: Disk Usage'
+              type: ZABBIX_ACTIVE
+              key: 'ispconfig.website.disk_usage[{#WEBSITE_ID}]'
+              delay: 10m
+              history: 30d
+              trends: 90d
+              value_type: UNSIGNED
+              units: B
+              description: 'Current disk space usage for website'
+              tags:
+                - tag: Application
+                  value: 'ISPConfig Websites'
+                - tag: Domain
+                  value: '{#DOMAIN}'
+              
+            - uuid: c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2
+              name: 'Website {#DOMAIN}: Disk Quota'
+              type: ZABBIX_ACTIVE
+              key: 'ispconfig.website.hd_quota[{#WEBSITE_ID}]'
+              delay: 1h
+              history: 30d
+              trends: 90d
+              value_type: UNSIGNED
+              units: B
+              description: 'Hard disk quota configured for website'
+              tags:
+                - tag: Application
+                  value: 'ISPConfig Websites'
+                - tag: Domain
+                  value: '{#DOMAIN}'
+              
+            - uuid: d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3
+              name: 'Website {#DOMAIN}: Document Root'
+              type: ZABBIX_ACTIVE
+              key: 'ispconfig.website.document_root[{#WEBSITE_ID}]'
+              delay: 1h
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              description: 'Document root path for website'
+              tags:
+                - tag: Application
+                  value: 'ISPConfig Websites'
+                - tag: Domain
+                  value: '{#DOMAIN}'
+          
+          trigger_prototypes:
+            - uuid: e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4
+              expression: 'last(/ISPConfig Websites/ispconfig.website.active[{#WEBSITE_ID}])=0'
+              name: 'Website {#DOMAIN} is inactive'
+              priority: WARNING
+              description: 'Website {#DOMAIN} has been marked as inactive in ISPConfig'
+              tags:
+                - tag: Domain
+                  value: '{#DOMAIN}'
+              
+            - uuid: f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5
+              expression: 'last(/ISPConfig Websites/ispconfig.website.disk_usage[{#WEBSITE_ID}])>last(/ISPConfig Websites/ispconfig.website.hd_quota[{#WEBSITE_ID}])*0.9'
+              name: 'Website {#DOMAIN} disk usage high (>90%)'
+              priority: WARNING
+              description: 'Website {#DOMAIN} is using more than 90% of its disk quota'
+              manual_close: 'YES'
+              tags:
+                - tag: Domain
+                  value: '{#DOMAIN}'
+              
+            - uuid: a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6
+              expression: 'last(/ISPConfig Websites/ispconfig.website.disk_usage[{#WEBSITE_ID}])>=last(/ISPConfig Websites/ispconfig.website.hd_quota[{#WEBSITE_ID}])'
+              name: 'Website {#DOMAIN} disk quota exceeded'
+              priority: HIGH
+              description: 'Website {#DOMAIN} has exceeded its disk quota'
+              manual_close: 'YES'
+              dependencies:
+                - name: 'Website {#DOMAIN} disk usage high (>90%)'
+                  expression: 'last(/ISPConfig Websites/ispconfig.website.disk_usage[{#WEBSITE_ID}])>last(/ISPConfig Websites/ispconfig.website.hd_quota[{#WEBSITE_ID}])*0.9'
+              tags:
+                - tag: Domain
+                  value: '{#DOMAIN}'
+          
+          graph_prototypes:
+            - uuid: b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7
+              name: 'Website {#DOMAIN}: Disk Usage'
+              width: '900'
+              height: '200'
+              show_work_period: 'NO'
+              show_triggers: 'YES'
+              type: STACKED
+              graph_items:
+                - color: 1A7C11
+                  calc_fnc: ALL
+                  item:
+                    host: 'ISPConfig Websites'
+                    key: 'ispconfig.website.disk_usage[{#WEBSITE_ID}]'
+                - sortorder: '1'
+                  color: F63100
+                  calc_fnc: ALL
+                  item:
+                    host: 'ISPConfig Websites'
+                    key: 'ispconfig.website.hd_quota[{#WEBSITE_ID}]'
+      
+      macros:
+        - macro: '{$ISPCONFIG.DISK.WARN}'
+          value: '90'
+          description: 'Disk usage warning threshold (percentage)'
+        
+        - macro: '{$ISPCONFIG.DISK.CRIT}'
+          value: '95'
+          description: 'Disk usage critical threshold (percentage)'
