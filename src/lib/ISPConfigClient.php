@@ -273,6 +273,122 @@ class ISPConfigClient
     }
 
     /**
+     * Get all email accounts from ISPConfig
+     *
+     * @return array Array of email records
+     * @throws ISPConfigException
+     */
+    public function getEmails(): array
+    {
+        $sessionId = $this->login();
+
+        try {
+            $emails = $this->executeWithRetry(function () use ($sessionId) {
+                return $this->client->sites_mail_user_get($sessionId, ['active' => 'y']);
+            });
+
+            return is_array($emails) ? $emails : [];
+        } catch (SoapFault $e) {
+            throw new ISPConfigException("Failed to get emails: " . $e->getMessage(), 0, $e);
+        }
+    }
+
+    /**
+     * Get a specific email account by ID
+     *
+     * @param int $emailId
+     * @return array|null Email record or null if not found
+     * @throws ISPConfigException
+     */
+    public function getEmail(int $emailId): ?array
+    {
+        $sessionId = $this->login();
+
+        try {
+            $email = $this->executeWithRetry(function () use ($sessionId, $emailId) {
+                return $this->client->sites_mail_user_get($sessionId, ['mailuser_id' => $emailId]);
+            });
+
+            if (is_array($email) && !empty($email)) {
+                return $email[0] ?? null;
+            }
+
+            return null;
+        } catch (SoapFault $e) {
+            throw new ISPConfigException("Failed to get email {$emailId}: " . $e->getMessage(), 0, $e);
+        }
+    }
+
+    /**
+     * Get all mail domains from ISPConfig
+     *
+     * @return array Array of mail domain records
+     * @throws ISPConfigException
+     */
+    public function getMailDomains(): array
+    {
+        $sessionId = $this->login();
+
+        try {
+            $domains = $this->executeWithRetry(function () use ($sessionId) {
+                return $this->client->sites_mail_domain_get($sessionId, ['active' => 'y']);
+            });
+
+            return is_array($domains) ? $domains : [];
+        } catch (SoapFault $e) {
+            throw new ISPConfigException("Failed to get mail domains: " . $e->getMessage(), 0, $e);
+        }
+    }
+
+    /**
+     * Get a specific mail domain by ID
+     *
+     * @param int $domainId
+     * @return array|null Mail domain record or null if not found
+     * @throws ISPConfigException
+     */
+    public function getMailDomain(int $domainId): ?array
+    {
+        $sessionId = $this->login();
+
+        try {
+            $domain = $this->executeWithRetry(function () use ($sessionId, $domainId) {
+                return $this->client->sites_mail_domain_get($sessionId, ['mail_domain_id' => $domainId]);
+            });
+
+            if (is_array($domain) && !empty($domain)) {
+                return $domain[0] ?? null;
+            }
+
+            return null;
+        } catch (SoapFault $e) {
+            throw new ISPConfigException("Failed to get mail domain {$domainId}: " . $e->getMessage(), 0, $e);
+        }
+    }
+
+    /**
+     * Get mail domain statistics
+     *
+     * @param int $domainId
+     * @return array Statistics data
+     * @throws ISPConfigException
+     */
+    public function getMailDomainStats(int $domainId): array
+    {
+        $sessionId = $this->login();
+
+        try {
+            $stats = $this->executeWithRetry(function () use ($sessionId, $domainId) {
+                return $this->client->sites_mail_domain_get_stats($sessionId, $domainId);
+            });
+
+            return is_array($stats) ? $stats : [];
+        } catch (SoapFault $e) {
+            throw new ISPConfigException("Failed to get mail domain stats for {$domainId}: " . $e->getMessage(), 0, $e);
+        }
+    }
+
+    /**
      * Destructor - ensure logout
      */
     public function __destruct()

@@ -1,0 +1,157 @@
+zabbix_export:
+  version: '7.4'
+  template_groups:
+    - uuid: 7df96b18f23590f991812c9f04857890
+      name: 'ISPConfig'
+  templates:
+    - uuid: f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1
+      template: 'ISPConfig Mail Domains'
+      name: 'ISPConfig Mail Domains Monitoring'
+      description: |
+        Template for monitoring ISPConfig mail domains
+        
+        This template discovers mail domains from ISPConfig and monitors:
+        - Mail domain status (active/inactive)
+        - Domain information
+        - Number of email accounts
+        - Total mailbox quota and usage
+        - Catch-all email configuration
+        
+        Requirements:
+        - ISPConfig 3.2+ with SOAP API enabled
+        - Zabbix Agent with UserParameter configured
+        - PHP 7.4+ with SOAP extension
+        - Email module enabled in configuration
+        
+        Author: ISPConfig Zabbix Monitoring Project
+        Version: 1.0.0
+      groups:
+        - name: 'ISPConfig'
+      discovery_rules:
+        - uuid: a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2
+          name: 'ISPConfig Mail Domains Discovery'
+          type: ZABBIX_ACTIVE
+          key: 'ispconfig.mail_domains.discovery'
+          delay: 2h
+          lifetime: 14d
+          description: 'Discovers all mail domains configured in ISPConfig'
+          item_prototypes:
+            - uuid: b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3
+              name: 'Domain {#DOMAIN}: Active Status'
+              type: ZABBIX_ACTIVE
+              key: 'ispconfig.mail_domain.active[{#MAIL_DOMAIN_ID}]'
+              delay: 5m
+              history: 30d
+              trends: 90d
+              value_type: UNSIGNED
+              description: 'Active status of mail domain {#DOMAIN}'
+              tags:
+                - tag: Application
+                  value: 'ISPConfig Email'
+                - tag: Domain
+                  value: '{#DOMAIN}'
+              
+            - uuid: c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4
+              name: 'Domain {#DOMAIN}: Domain Name'
+              type: ZABBIX_ACTIVE
+              key: 'ispconfig.mail_domain.domain[{#MAIL_DOMAIN_ID}]'
+              delay: 1h
+              history: 7d
+              trends: '0'
+              value_type: CHAR
+              description: 'Mail domain name'
+              tags:
+                - tag: Application
+                  value: 'ISPConfig Email'
+                - tag: Domain
+                  value: '{#DOMAIN}'
+              
+            - uuid: d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5
+              name: 'Domain {#DOMAIN}: Catch-all Address'
+              type: ZABBIX_ACTIVE
+              key: 'ispconfig.mail_domain.mail_catchall[{#MAIL_DOMAIN_ID}]'
+              delay: 1h
+              history: 7d
+              trends: '0'
+              value_type: CHAR
+              description: 'Catch-all email address for domain {#DOMAIN}'
+              tags:
+                - tag: Application
+                  value: 'ISPConfig Email'
+              
+            - uuid: e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6
+              name: 'Domain {#DOMAIN}: Account Count'
+              type: ZABBIX_ACTIVE
+              key: 'ispconfig.mail_domain.account_count[{#MAIL_DOMAIN_ID}]'
+              delay: 30m
+              history: 30d
+              trends: 90d
+              value_type: UNSIGNED
+              description: 'Number of email accounts in domain {#DOMAIN}'
+              tags:
+                - tag: Application
+                  value: 'ISPConfig Email'
+              
+            - uuid: f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7
+              name: 'Domain {#DOMAIN}: Total Quota'
+              type: ZABBIX_ACTIVE
+              key: 'ispconfig.mail_domain.total_quota[{#MAIL_DOMAIN_ID}]'
+              delay: 1h
+              history: 30d
+              trends: 90d
+              value_type: UNSIGNED
+              units: B
+              description: 'Total mailbox quota for domain {#DOMAIN}'
+              tags:
+                - tag: Application
+                  value: 'ISPConfig Email'
+              
+            - uuid: a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8
+              name: 'Domain {#DOMAIN}: Total Usage'
+              type: ZABBIX_ACTIVE
+              key: 'ispconfig.mail_domain.total_used[{#MAIL_DOMAIN_ID}]'
+              delay: 10m
+              history: 30d
+              trends: 90d
+              value_type: UNSIGNED
+              units: B
+              description: 'Total mailbox usage for domain {#DOMAIN}'
+              tags:
+                - tag: Application
+                  value: 'ISPConfig Email'
+          
+          trigger_prototypes:
+            - uuid: b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9
+              expression: 'last(/ISPConfig Mail Domains/ispconfig.mail_domain.active[{#MAIL_DOMAIN_ID}])=0'
+              name: 'Mail domain {#DOMAIN} is inactive'
+              priority: WARNING
+              description: 'Mail domain {#DOMAIN} has been marked as inactive in ISPConfig'
+              tags:
+                - tag: Domain
+                  value: '{#DOMAIN}'
+              
+            - uuid: c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0
+              expression: 'last(/ISPConfig Mail Domains/ispconfig.mail_domain.account_count[{#MAIL_DOMAIN_ID}])=0'
+              name: 'Mail domain {#DOMAIN} has no email accounts'
+              priority: INFO
+              description: 'Mail domain {#DOMAIN} does not have any email accounts configured'
+              manual_close: 'YES'
+              tags:
+                - tag: Domain
+                  value: '{#DOMAIN}'
+          
+          graph_prototypes:
+            - uuid: d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1
+              name: 'Domain {#DOMAIN}: Mailbox Usage'
+              width: '900'
+              height: '200'
+              show_work_period: 'NO'
+              show_triggers: 'YES'
+              type: STACKED
+              graph_items:
+                - color: 1A7C11
+      
+      macros:
+        - macro: '{$ISPCONFIG.MAIL_DOMAIN.WARN}'
+          value: '90'
+          description: 'Mail domain usage warning threshold (percentage)'
