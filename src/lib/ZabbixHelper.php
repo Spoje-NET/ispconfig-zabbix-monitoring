@@ -186,10 +186,13 @@ class ZabbixHelper
     }
 
     /**
-     * Parse bytes from human-readable format (e.g., "1.5G", "512M")
+     * Convert a numeric value or human-readable size string into an integer number of bytes.
      *
-     * @param mixed $value
-     * @return int Bytes
+     * Accepts plain numbers (interpreted as bytes) or strings with an optional unit suffix
+     * `B`, `K`, `M`, `G`, `T` (case-insensitive) and optional decimals (e.g., "1.5G", "512M").
+     *
+     * @param mixed $value The value to parse (number or size string).
+     * @return int Integer number of bytes; returns 0 if the value cannot be parsed.
      */
     private function parseBytes($value): int
     {
@@ -207,6 +210,61 @@ class ZabbixHelper
         }
 
         return 0;
+    }
+
+    /**
+     * Builds Zabbix low-level discovery data for email accounts.
+     *
+     * @param array $emails List of email records (ISPConfig format) to convert into discovery items.
+     * @return array An array with a 'data' key containing discovery items where each item maps Zabbix macros (e.g. `{#EMAIL}`, `{#QUOTA}`) to their values.
+     */
+    public function formatEmailsDiscovery(array $emails): array
+    {
+        $macroMap = [
+            'mailuser_id' => '{#MAIL_USER_ID}',
+            'email' => '{#EMAIL}',
+            'mail_domain_id' => '{#MAIL_DOMAIN_ID}',
+            'quota' => '{#QUOTA}',
+            'used' => '{#USED}',
+            'active' => '{#ACTIVE}',
+            'domain' => '{#DOMAIN}'
+        ];
+
+        return $this->formatDiscovery($emails, $macroMap);
+    }
+
+    /**
+         * Builds Zabbix Low-Level Discovery (LLD) data for mail domains.
+         *
+         * @param array $domains Mail domain records (each entry is an associative array from ISPConfig).
+         * @return array Discovery structure with a top-level `data` array of items containing macros like `{#MAIL_DOMAIN_ID}`, `{#DOMAIN}`, `{#SERVER_ID}`, `{#ACTIVE}`, and `{#CATCH_ALL}`.
+         */
+    public function formatMailDomainsDiscovery(array $domains): array
+    {
+        $macroMap = [
+            'mail_domain_id' => '{#MAIL_DOMAIN_ID}',
+            'domain' => '{#DOMAIN}',
+            'server_id' => '{#SERVER_ID}',
+            'active' => '{#ACTIVE}',
+            'mail_catchall' => '{#CATCH_ALL}'
+        ];
+
+        return $this->formatDiscovery($domains, $macroMap);
+    }
+
+    /**
+         * Calculates email storage usage as a percentage of the quota.
+         *
+         * @param int $used Used space in bytes.
+         * @param int $quota Total quota in bytes.
+         * @return float Usage percentage between 0 and 100.
+         */
+    public function calculateEmailUsagePercent(int $used, int $quota): float
+    {
+        if ($quota <= 0) {
+            return 0;
+        }
+        return min(100, ($used / $quota) * 100);
     }
 
     /**
