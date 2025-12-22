@@ -13,6 +13,8 @@ override_dh_install:
 	dh_install
 	# Update version in installed composer.json from changelog (work with copy, not original)
 	jq '.version = "'`dpkg-parsechangelog | sed -n 's/^Version: //p'| sed 's/~.*//'`'"' debian/ispconfig-zabbix-monitoring/usr/lib/ispconfig-zabbix-monitoring/composer.json | sponge debian/ispconfig-zabbix-monitoring/usr/lib/ispconfig-zabbix-monitoring/composer.json
+	# Fix autoload path in composer.json to point to lib/ instead of src/lib/
+	sed -i 's|"src/lib/"|"lib/"|g' debian/ispconfig-zabbix-monitoring/usr/lib/ispconfig-zabbix-monitoring/composer.json
 	# Fix vendor autoload paths in installed scripts (point to system composer directory)
 	sed -i "s#__DIR__\.'/.*/vendor/autoload\.php'#'/var/lib/composer/ispconfig-zabbix-monitoring/autoload.php'#g" debian/ispconfig-zabbix-monitoring/usr/lib/ispconfig-zabbix-monitoring/autodiscovery/*.php
 	sed -i "s#__DIR__\.'/.*/vendor/autoload\.php'#'/var/lib/composer/ispconfig-zabbix-monitoring/autoload.php'#g" debian/ispconfig-zabbix-monitoring/usr/lib/ispconfig-zabbix-monitoring/keys/*.php

@@ -1,3 +1,15 @@
+ispconfig-zabbix-monitoring (0.5.2) unstable; urgency=medium
+
+  * Fix composer.json autoload path using sed
+
+ -- Vitex <vitezslav.dvorak@spojenet.cz>  Mon, 22 Dec 2025 19:19:12 +0100
+
+ispconfig-zabbix-monitoring (0.5.1) unstable; urgency=medium
+
+  * Fix composer.json autoload path to lib/ instead of src/lib/
+
+ -- Vitex <vitezslav.dvorak@spojenet.cz>  Mon, 22 Dec 2025 19:18:30 +0100
+
 ispconfig-zabbix-monitoring (0.5.0) unstable; urgency=medium
 
   * Add enabled modules to config and preserve debconf values
