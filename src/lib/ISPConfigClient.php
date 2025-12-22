@@ -181,6 +181,124 @@ class ISPConfigClient
     }
 
     /**
+     * Retrieve active mail users from ISPConfig.
+     *
+     * @throws ISPConfigException
+     *
+     * @return array Array of email records
+     */
+    public function getEmails(): array
+    {
+        $sessionId = $this->login();
+
+        try {
+            $emails = $this->executeWithRetry(function () use ($sessionId) {
+                return $this->client->sites_mail_user_get($sessionId, ['active' => 'y']);
+            });
+
+            return \is_array($emails) ? $emails : [];
+        } catch (\SoapFault $e) {
+            throw new ISPConfigException("Failed to get emails: " . $e->getMessage(), 0, $e);
+        }
+    }
+
+    /**
+     * Retrieve a mail user by its ID.
+     *
+     * @param int $emailId The mail user ID to fetch.
+     * @return array|null Email record as an associative array if found, `null` otherwise.
+     * @throws ISPConfigException If the API call fails.
+     */
+    public function getEmail(int $emailId): ?array
+    {
+        $sessionId = $this->login();
+
+        try {
+            $email = $this->executeWithRetry(function () use ($sessionId, $emailId) {
+                return $this->client->sites_mail_user_get($sessionId, ['mailuser_id' => $emailId]);
+            });
+
+            if (\is_array($email) && !empty($email)) {
+                return $email[0] ?? null;
+            }
+
+            return null;
+        } catch (\SoapFault $e) {
+            throw new ISPConfigException("Failed to get email {$emailId}: " . $e->getMessage(), 0, $e);
+        }
+    }
+
+    /**
+     * Retrieve active mail domains from ISPConfig.
+     *
+     * @throws ISPConfigException
+     *
+     * @return array Array of mail domain records
+     */
+    public function getMailDomains(): array
+    {
+        $sessionId = $this->login();
+
+        try {
+            $domains = $this->executeWithRetry(function () use ($sessionId) {
+                return $this->client->sites_mail_domain_get($sessionId, ['active' => 'y']);
+            });
+
+            return \is_array($domains) ? $domains : [];
+        } catch (\SoapFault $e) {
+            throw new ISPConfigException("Failed to get mail domains: " . $e->getMessage(), 0, $e);
+        }
+    }
+
+    /**
+     * Retrieve a mail domain record by its ID.
+     *
+     * @param int $domainId The mail domain ID to fetch.
+     * @return array|null An associative array representing the mail domain record, or `null` if no record was found.
+     * @throws ISPConfigException If the SOAP request fails or an error occurs while fetching the domain.
+     */
+    public function getMailDomain(int $domainId): ?array
+    {
+        $sessionId = $this->login();
+
+        try {
+            $domain = $this->executeWithRetry(function () use ($sessionId, $domainId) {
+                return $this->client->sites_mail_domain_get($sessionId, ['mail_domain_id' => $domainId]);
+            });
+
+            if (\is_array($domain) && !empty($domain)) {
+                return $domain[0] ?? null;
+            }
+
+            return null;
+        } catch (\SoapFault $e) {
+            throw new ISPConfigException("Failed to get mail domain {$domainId}: " . $e->getMessage(), 0, $e);
+        }
+    }
+
+    /**
+     * Retrieve statistics for a mail domain.
+     *
+     * @throws ISPConfigException
+     *
+     * @return array Statistics data
+     */
+    public function getMailDomainStats(int $domainId): array
+    {
+        $sessionId = $this->login();
+
+        try {
+            $stats = $this->executeWithRetry(function () use ($sessionId, $domainId) {
+                return $this->client->sites_mail_domain_get_stats($sessionId, $domainId);
+            });
+
+            return \is_array($stats) ? $stats : [];
+        } catch (\SoapFault $e) {
+            throw new ISPConfigException("Failed to get mail domain stats for {$domainId}: " . $e->getMessage(), 0, $e);
+        }
+    }
+
+    /**
      * Generic method to call any ISPConfig API function.
      *
      * @param string $method SOAP method name
