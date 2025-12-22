@@ -6,6 +6,52 @@ case "$1" in
         # Create configuration directory
         mkdir -p /etc/ispconfig-zabbix-monitoring
         
+        # Get debconf values and create config.php file
+        . /usr/share/debconf/confmodule
+        
+        db_get ispconfig-zabbix-monitoring/ispconfig_url
+        ISPCONFIG_URL="$RET"
+        
+        db_get ispconfig-zabbix-monitoring/ispconfig_username
+        ISPCONFIG_USERNAME="$RET"
+        
+        db_get ispconfig-zabbix-monitoring/ispconfig_password
+        ISPCONFIG_PASSWORD="$RET"
+        
+        # Create or update config.php file only on first install or explicit reconfigure
+        # - First install: /etc/ispconfig-zabbix-monitoring/config.php does not exist yet
+        # - dpkg-reconfigure: DEBCONF_RECONFIGURE=1
+        if [ ! -f /etc/ispconfig-zabbix-monitoring/config.php ] || [ "${DEBCONF_RECONFIGURE:-}" = "1" ]; then
+            cat > /etc/ispconfig-zabbix-monitoring/config.php << 'EOF'
+<?php
+/**
+ * ISPConfig Zabbix Monitoring Configuration
+ * Generated during package installation or reconfiguration
+ */
+
+return [
+    // ISPConfig SOAP API Configuration
+    'soap_uri' => 'ISPCONFIG_URL_PLACEHOLDER',
+    'soap_location' => 'ISPCONFIG_URL_PLACEHOLDER',
+    'username' => 'ISPCONFIG_USERNAME_PLACEHOLDER',
+    'password' => 'ISPCONFIG_PASSWORD_PLACEHOLDER',
+    
+    // SSL Verification (set to false for self-signed certificates)
+    'verify_ssl' => false,
+];
+EOF
+            # Replace placeholders with actual values
+            sed -i "s|ISPCONFIG_URL_PLACEHOLDER|$ISPCONFIG_URL|g" /etc/ispconfig-zabbix-monitoring/config.php
+            sed -i "s|ISPCONFIG_USERNAME_PLACEHOLDER|$ISPCONFIG_USERNAME|g" /etc/ispconfig-zabbix-monitoring/config.php
+            sed -i "s|ISPCONFIG_PASSWORD_PLACEHOLDER|$ISPCONFIG_PASSWORD|g" /etc/ispconfig-zabbix-monitoring/config.php
+        fi
+        
+        # Set proper ownership and permissions for config.php file if it exists
+        if [ -f /etc/ispconfig-zabbix-monitoring/config.php ]; then
+            chown root:zabbix /etc/ispconfig-zabbix-monitoring/config.php 2>/dev/null || chown root:root /etc/ispconfig-zabbix-monitoring/config.php
+            chmod 640 /etc/ispconfig-zabbix-monitoring/config.php
+        fi
+        
         # Set proper permissions for scripts
         find /usr/share/ispconfig-zabbix-monitoring/autodiscovery/ -type f -name "*.php" -exec chmod +x {} \; 2>/dev/null || true
         find /usr/share/ispconfig-zabbix-monitoring/keys/ -type f -name "*.php" -exec chmod +x {} \; 2>/dev/null || true
@@ -25,8 +71,11 @@ case "$1" in
             systemctl restart zabbix-agent2 || true
         fi
         
+        # Clear debconf database to avoid storing passwords
+        db_purge
+        
         echo "ISPConfig Zabbix monitoring installed successfully."
-        echo "Configuration example: /usr/share/doc/ispconfig-zabbix-monitoring/examples/config.example.php"
+        echo "Configuration saved to /etc/ispconfig-zabbix-monitoring/config.php"
         echo "Templates: /usr/share/ispconfig-zabbix-monitoring/templates/"
     ;;
 

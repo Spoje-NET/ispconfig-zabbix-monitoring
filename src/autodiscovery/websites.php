@@ -13,22 +13,21 @@ declare(strict_types=1);
 
 require_once __DIR__.'/../../vendor/autoload.php';
 
+use ISPConfigMonitoring\ConfigLoader;
 use ISPConfigMonitoring\ISPConfigClient;
 use ISPConfigMonitoring\ISPConfigException;
 use ISPConfigMonitoring\ZabbixHelper;
 
 // Load configuration
-$configFile = __DIR__.'/../../config/config.php';
-
-if (!file_exists($configFile)) {
-    error_log("Configuration file not found: {$configFile}");
-    error_log('Please copy config.example.php to config.php and configure it.');
+try {
+    $config = ConfigLoader::load('../../config/config.php');
+} catch (\RuntimeException $e) {
+    error_log($e->getMessage());
+    error_log('Please configure the package using: dpkg-reconfigure ispconfig-zabbix-monitoring');
     echo json_encode(['data' => []]);
 
     exit(1);
 }
-
-$config = require $configFile;
 
 // Check if websites module is enabled
 if (empty($config['modules']['websites'])) {

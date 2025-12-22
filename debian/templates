@@ -1,0 +1,22 @@
+Template: ispconfig-zabbix-monitoring/ispconfig_url
+Type: string
+Default: https://localhost:8080/remote/
+Description: ISPConfig Remote API URL
+ Enter the URL of your ISPConfig Remote API endpoint including protocol and port.
+ .
+ Example: https://panel.example.com:8080/remote/
+
+Template: ispconfig-zabbix-monitoring/ispconfig_username
+Type: string
+Default: remote_user
+Description: ISPConfig Remote API username
+ Enter the username for ISPConfig Remote API access.
+ This user should have appropriate permissions for monitoring.
+
+Template: ispconfig-zabbix-monitoring/ispconfig_password
+Type: password
+Description: ISPConfig Remote API password
+ Enter the password for the ISPConfig Remote API user.
+ .
+ This password will be stored in /etc/ispconfig-zabbix-monitoring/config.php
+ with restricted permissions (readable only by root and zabbix).

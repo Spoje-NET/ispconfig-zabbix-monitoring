@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -e
+
+. /usr/share/debconf/confmodule
+
+# Check if this is a reconfiguration
+if [ "$1" = "reconfigure" ]; then
+    # During reconfiguration, always prompt for configuration
+    db_fset ispconfig-zabbix-monitoring/ispconfig_url seen false || true
+    db_fset ispconfig-zabbix-monitoring/ispconfig_username seen false || true  
+    db_fset ispconfig-zabbix-monitoring/ispconfig_password seen false || true
+fi
+
+# Prompt for configuration values
+db_input medium ispconfig-zabbix-monitoring/ispconfig_url || true
+db_input medium ispconfig-zabbix-monitoring/ispconfig_username || true
+db_input high ispconfig-zabbix-monitoring/ispconfig_password || true
+
+db_go || true
