@@ -122,7 +122,7 @@ distributions.each { distro ->
                                 sh 'sudo DEBIAN_FRONTEND=noninteractive DEBCONF_DEBUG=' + debconf_debug + ' apt-get -y install ' + pkgName + ' || sudo apt-get -y -f install'
                             }
                         }
-                        sh 'sudo /usr/bin/php /usr/lib/ispconfig-zabbix-monitoring/autodiscovery/emails.php'
+                        // sh 'sudo /usr/bin/php /usr/lib/ispconfig-zabbix-monitoring/autodiscovery/emails.php'
                     }
                 }
                 stage('Archive artifacts ' + distroName ) {
