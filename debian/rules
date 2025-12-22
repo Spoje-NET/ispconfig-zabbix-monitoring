@@ -4,6 +4,11 @@
 %:
 	dh $@
 
+override_dh_auto_configure:
+	# Remove composer.lock to prevent platform compatibility issues during build
+	rm -f composer.lock
+	dh_auto_configure
+
 override_dh_install:
 	dh_install
 	# Update version in installed composer.json from changelog (work with copy, not original)
