@@ -1,3 +1,22 @@
+ispconfig-zabbix-monitoring (0.4.7) unstable; urgency=medium
+
+  * Fix autoload path replacement with wildcard pattern
+
+ -- Vitex <vitezslav.dvorak@spojenet.cz>  Mon, 22 Dec 2025 18:41:46 +0100
+
+ispconfig-zabbix-monitoring (0.4.6) unstable; urgency=medium
+
+  * Fix autoload path replacement - use complete line replacement
+
+ -- Vitex <vitezslav.dvorak@spojenet.cz>  Mon, 22 Dec 2025 18:40:53 +0100
+
+ispconfig-zabbix-monitoring (0.4.5) unstable; urgency=medium
+
+  * Fix sed pattern for autoload path replacement
+  * Fix sed pattern escaping for autoload path
+
+ -- Vitex <vitezslav.dvorak@spojenet.cz>  Mon, 22 Dec 2025 18:39:52 +0100
+
 ispconfig-zabbix-monitoring (0.4.3) unstable; urgency=medium
 
   * Remove composer.lock during build to prevent platform issues
