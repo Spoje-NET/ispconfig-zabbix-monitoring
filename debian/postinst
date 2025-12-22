@@ -53,13 +53,13 @@ EOF
         fi
         
         # Set proper permissions for scripts
-        find /usr/share/ispconfig-zabbix-monitoring/autodiscovery/ -type f -name "*.php" -exec chmod +x {} \; 2>/dev/null || true
-        find /usr/share/ispconfig-zabbix-monitoring/keys/ -type f -name "*.php" -exec chmod +x {} \; 2>/dev/null || true
+        find /usr/lib/ispconfig-zabbix-monitoring/autodiscovery/ -type f -name "*.php" -exec chmod +x {} \; 2>/dev/null || true
+        find /usr/lib/ispconfig-zabbix-monitoring/keys/ -type f -name "*.php" -exec chmod +x {} \; 2>/dev/null || true
         
         # Set proper ownership for library files
-        chown -R root:root /usr/share/ispconfig-zabbix-monitoring/ 2>/dev/null || true
-        chmod -R 644 /usr/share/ispconfig-zabbix-monitoring/lib/*.php 2>/dev/null || true
-        chmod -R 644 /usr/share/ispconfig-zabbix-monitoring/templates/* 2>/dev/null || true
+        chown -R root:root /usr/lib/ispconfig-zabbix-monitoring/ 2>/dev/null || true
+        chmod -R 644 /usr/lib/ispconfig-zabbix-monitoring/lib/*.php 2>/dev/null || true
+        chmod -R 644 /usr/lib/ispconfig-zabbix-monitoring/templates/* 2>/dev/null || true
         
         # Install Zabbix agent configuration
         if [ -d /etc/zabbix/zabbix_agentd.d ]; then
@@ -89,7 +89,7 @@ EOF
         
         echo "ISPConfig Zabbix monitoring installed successfully."
         echo "Configuration saved to /etc/ispconfig-zabbix-monitoring/config.php"
-        echo "Templates: /usr/share/ispconfig-zabbix-monitoring/templates/"
+        echo "Templates: /usr/lib/ispconfig-zabbix-monitoring/templates/"
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)

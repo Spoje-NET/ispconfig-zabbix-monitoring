@@ -1,8 +1,8 @@
-composer.json usr/share/ispconfig-zabbix-monitoring/
-src/autodiscovery/* usr/share/ispconfig-zabbix-monitoring/autodiscovery/
-src/keys/* usr/share/ispconfig-zabbix-monitoring/keys/
-src/lib/* usr/share/ispconfig-zabbix-monitoring/lib/
-templates/* usr/share/ispconfig-zabbix-monitoring/templates/
+composer.json usr/lib/ispconfig-zabbix-monitoring/
+src/autodiscovery/* usr/lib/ispconfig-zabbix-monitoring/autodiscovery/
+src/keys/* usr/lib/ispconfig-zabbix-monitoring/keys/
+src/lib/* usr/lib/ispconfig-zabbix-monitoring/lib/
+templates/* usr/lib/ispconfig-zabbix-monitoring/templates/
 config/config.example.php usr/share/doc/ispconfig-zabbix-monitoring/examples/
 config/zabbix_agentd.d/ispconfig-monitoring.conf usr/share/doc/ispconfig-zabbix-monitoring/examples/
 README.md usr/share/doc/ispconfig-zabbix-monitoring/
