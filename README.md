@@ -8,21 +8,31 @@ This project provides a monitoring ecosystem for ISPConfig using Zabbix 7.4. It 
 ispconfig-zabbix-monitoring
 ├── src
 │   ├── autodiscovery
-│   │   └── websites.php
+│   │   ├── websites.php
+│   │   ├── emails.php
+│   │   └── mail_domains.php
 │   ├── keys
-│   │   └── websites.php
+│   │   ├── websites.php
+│   │   ├── emails.php
+│   │   └── mail_domains.php
 │   └── lib
 │       ├── ISPConfigClient.php
 │       └── ZabbixHelper.php
 ├── templates
-│   └── websites
-│       └── template_ispconfig_websites.yaml
+│   ├── websites
+│   │   └── template_ispconfig_websites.yaml
+│   └── email
+│       ├── template_ispconfig_mail_accounts.yaml
+│       └── template_ispconfig_mail_domains.yaml
 ├── config
-│   └── config.example.php
+│   ├── config.example.php
+│   └── config.php
 ├── scripts
 │   └── install.sh
 ├── composer.json
-└── README.md
+├── README.md
+├── PROJECT_PLAN.md
+└── LICENSE
 ```
 
 ## Installation
@@ -52,9 +62,45 @@ ispconfig-zabbix-monitoring
 
 ## Usage
 
-- The `src/autodiscovery/websites.php` script will automatically discover websites in ISPConfig and format the data for Zabbix.
-- The `src/keys/websites.php` file defines the keys for monitoring website metrics.
-- The Zabbix template for monitoring websites can be found in `templates/websites/template_ispconfig_websites.yaml`.
+### Websites Module
+
+The `src/autodiscovery/websites.php` script automatically discovers websites in ISPConfig and formats the data for Zabbix.
+
+The `src/keys/websites.php` script retrieves metrics for individual websites:
+```bash
+php src/keys/websites.php <website_id> <key>
+```
+
+Available keys: `active`, `domain`, `server_id`, `document_root`, `php_version`, `ssl_enabled`, `traffic`, `disk_usage`, `hd_quota`
+
+### Email Module
+
+The `src/autodiscovery/emails.php` script discovers all email accounts in ISPConfig.
+
+The `src/keys/emails.php` script retrieves metrics for individual email accounts:
+```bash
+php src/keys/emails.php <email_id> <key>
+```
+
+Available keys: `active`, `email`, `domain`, `quota`, `used`, `usage_percent`, `spamfilter_enabled`, `antivirus_enabled`, `mail_domain_id`, `server_id`, `homedir`
+
+### Mail Domains Module
+
+The `src/autodiscovery/mail_domains.php` script discovers all mail domains in ISPConfig.
+
+The `src/keys/mail_domains.php` script retrieves metrics for mail domains:
+```bash
+php src/keys/mail_domains.php <domain_id> <key>
+```
+
+Available keys: `active`, `domain`, `server_id`, `mail_catchall`, `account_count`, `total_quota`, `total_used`
+
+### Zabbix Templates
+
+Import the following templates into Zabbix:
+- `templates/websites/template_ispconfig_websites.yaml` - Websites monitoring
+- `templates/email/template_ispconfig_mail_accounts.yaml` - Email accounts monitoring
+- `templates/email/template_ispconfig_mail_domains.yaml` - Mail domains monitoring
 
 ## Contribution
 
