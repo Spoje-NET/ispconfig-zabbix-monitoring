@@ -38,6 +38,13 @@ return [
     
     // SSL Verification (set to false for self-signed certificates)
     'verify_ssl' => false,
+    
+    // Enabled modules
+    'modules' => [
+        'websites' => true,
+        'email' => true,
+        'mail_domains' => true,
+    ],
 ];
 EOF
             # Replace placeholders with actual values
@@ -84,12 +91,17 @@ EOF
             systemctl restart zabbix-agent2 || true
         fi
         
-        # Clear debconf database to avoid storing passwords
-        db_purge
+        # Clear debconf password only on first install
+        # Keep other values for potential reconfiguration
+        if [ -z "$2" ]; then
+            # First install - purge password only
+            db_unregister ispconfig-zabbix-monitoring/ispconfig_password || true
+        fi
         
         echo "ISPConfig Zabbix monitoring installed successfully."
         echo "Configuration saved to /etc/ispconfig-zabbix-monitoring/config.php"
         echo "Templates: /usr/lib/ispconfig-zabbix-monitoring/templates/"
+        echo "To reconfigure: dpkg-reconfigure ispconfig-zabbix-monitoring"
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
