@@ -14,6 +14,11 @@
             "ISPConfigMonitoring\\": "src/lib/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "ISPConfigMonitoring\\Tests\\": "tests/"
+        }
+    },
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require-dev": {
