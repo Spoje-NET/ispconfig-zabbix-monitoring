@@ -9,9 +9,6 @@
         "ext-soap": "*",
         "ext-openssl": "*"
     },
-    "require-dev": {
-        "phpunit/phpunit": "^9.5"
-    },
     "autoload": {
         "psr-4": {
             "ISPConfigMonitoring\\": "src/lib/"
@@ -19,7 +16,16 @@
     },
     "minimum-stability": "stable",
     "prefer-stable": true,
+    "require-dev": {
+        "phpunit/phpunit": "*",
+        "phpstan/phpstan": "*",
+        "friendsofphp/php-cs-fixer": "^3.85",
+        "ergebnis/composer-normalize": "^2.47",
+        "ergebnis/php-cs-fixer-config": "^6.51"
+    },
     "config": {
-        "disable-tls": true
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true
+        }
     }
 }

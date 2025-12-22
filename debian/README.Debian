@@ -1,0 +1,108 @@
+abraflexi-zabbix for Debian
+============================
+
+AbraFlexi Zabbix Monitoring Package
+
+This package provides comprehensive monitoring for AbraFlexi accounting server
+using Zabbix with Low Level Discovery, system metrics, and granular alerting.
+
+INSTALLATION
+============
+
+1. Install the package (done automatically if you're reading this)
+
+2. Configure AbraFlexi connection:
+   
+   Create /etc/abraflexi-zabbix/.env with your AbraFlexi server details:
+   
+   ABRAFLEXI_URL=https://your-abraflexi-server:5434
+   ABRAFLEXI_LOGIN=your-username
+   ABRAFLEXI_PASSWORD=your-password
+
+3. Import Zabbix template:
+   
+   - Open Zabbix web interface
+   - Go to Configuration → Templates  
+   - Click Import
+   - Upload /usr/share/doc/abraflexi-zabbix/abraflexi-template.xml
+   - Apply template to your AbraFlexi server host
+
+4. Test the configuration:
+   
+   sudo -u zabbix zabbix_agent2 -t abraflexi.company.lld
+   sudo -u zabbix zabbix_agent2 -t abraflexi.system.version
+   sudo -u zabbix zabbix_agent2 -t abraflexi.network.connectivity
+
+FEATURES
+========
+
+- Low Level Discovery of AbraFlexi companies/databases
+- System metrics from /status.json (memory, CPU, users, sessions)
+- Network connectivity monitoring (TCP, auth, service health)
+- Granular error detection with specific exit codes
+- Immediate alerting for critical issues
+- Performance monitoring and thresholds
+- Company availability tracking
+
+FILES
+=====
+
+Configuration:
+- /etc/abraflexi-zabbix/.env - Connection settings (create this file)
+- /etc/zabbix/zabbix_agent2.d/abraflexi.conf - Zabbix user parameters
+
+Scripts:
+- /usr/lib/abraflexi-zabbix/company_lld.php - Company discovery
+- /usr/lib/abraflexi-zabbix/system_status.php - System metrics
+- /usr/lib/abraflexi-zabbix/network_check.php - Network diagnostics
+- /usr/bin/abraflexi-zabbix-lld-company - Legacy wrapper
+
+Documentation:
+- /usr/share/doc/abraflexi-zabbix/abraflexi-template.xml - Zabbix template
+
+TROUBLESHOOTING
+===============
+
+1. Check script execution:
+   php /usr/lib/abraflexi-zabbix/company_lld.php
+
+2. Test Zabbix agent items:
+   sudo -u zabbix zabbix_agent2 -t abraflexi.network.overall
+
+3. Check logs:
+   tail -f /var/log/zabbix/zabbix_agent2.log
+   tail -f /var/log/syslog | grep abraflexi
+
+4. Verify permissions:
+   ls -la /usr/lib/abraflexi-zabbix/
+
+SUPPORT
+=======
+
+GitHub: https://github.com/VitexSoftware/abraflexi-zabbix
+Documentation: See README.md in the source repository
+
+
+Zabbix version support
+----------------------
+This package supports only Zabbix Agent 2 (zabbix-agent2, Zabbix 7.x and newer).
+Legacy zabbix-agent (zabbix_agentd) is not supported and no configuration is
+installed into /etc/zabbix/zabbix_agentd.d/.
+
+
+Update check items
+==================
+
+The package provides external scripts and agent2 items to monitor latest available
+AbraFlexi versions from Vitex testing and official production repositories:
+
+- /usr/lib/zabbix/externalscripts/abraflexi-update-testing.sh
+- /usr/lib/zabbix/externalscripts/abraflexi-update-production.sh
+
+These are exposed via agent2 user parameters in /etc/zabbix/zabbix_agent2.d/abraflexi.conf:
+
+- abraflexi.update.latestTesting
+- abraflexi.update.latestProduction
+
+The Zabbix template also contains dependent numeric items and triggers that compare
+current AbraFlexi version with these latest available versions.

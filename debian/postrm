@@ -1,0 +1,43 @@
+#!/bin/sh
+set -e
+
+case "$1" in
+    remove)
+        # Remove configuration if user chooses to
+        echo "Configuration files in /etc/abraflexi-zabbix/ were left intact."
+        echo "Remove them manually if no longer needed."
+    ;;
+    
+    purge)
+        # Remove all configuration files
+        rm -rf /etc/abraflexi-zabbix/ 2>/dev/null || true
+        
+        # Remove cache directory
+        rm -rf /var/cache/abraflexi-zabbix/ 2>/dev/null || true
+        
+        # Restart zabbix-agent if running
+        if systemctl is-active --quiet zabbix-agent; then
+            systemctl restart zabbix-agent || true
+        fi
+        
+        # Restart zabbix-agent2 if running  
+        if systemctl is-active --quiet zabbix-agent2; then
+            systemctl restart zabbix-agent2 || true
+        fi
+        
+        echo "AbraFlexi Zabbix monitoring completely removed."
+    ;;
+
+    upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
+    ;;
+
+    *)
+        echo "postrm called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+
+#DEBHELPER#
+
+exit 0
