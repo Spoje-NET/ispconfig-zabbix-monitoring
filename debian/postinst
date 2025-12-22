@@ -4,82 +4,30 @@ set -e
 case "$1" in
     configure)
         # Create configuration directory
-        mkdir -p /etc/abraflexi-zabbix
-        
-        # Get debconf values and create .env file
-        . /usr/share/debconf/confmodule
-        
-        db_get abraflexi-zabbix/abraflexi_url
-        ABRAFLEXI_URL="$RET"
-        
-        db_get abraflexi-zabbix/abraflexi_login
-        ABRAFLEXI_LOGIN="$RET"
-        
-        db_get abraflexi-zabbix/abraflexi_password
-        ABRAFLEXI_PASSWORD="$RET"
-        
-        # Create or update .env file only on first install or explicit reconfigure
-        # - First install: /etc/abraflexi-zabbix/.env does not exist yet
-        # - dpkg-reconfigure: DEBCONF_RECONFIGURE=1
-        if [ ! -f /etc/abraflexi-zabbix/.env ] || [ "${DEBCONF_RECONFIGURE:-}" = "1" ]; then
-            cat > /etc/abraflexi-zabbix/.env << EOF
-# AbraFlexi Zabbix Monitoring Configuration
-# Generated during package installation or reconfiguration
-
-# AbraFlexi server URL (required)
-ABRAFLEXI_URL=$ABRAFLEXI_URL
-
-# AbraFlexi API credentials (required)
-ABRAFLEXI_LOGIN=$ABRAFLEXI_LOGIN
-ABRAFLEXI_PASSWORD=$ABRAFLEXI_PASSWORD
-
-# Optional: Request timeout in seconds (default: 30)
-# ABRAFLEXI_TIMEOUT=30
-
-# Optional: Debug mode (uncomment for verbose logging)
-# DEBUG=1
-EOF
-        fi
-
-        # Set proper ownership and permissions for .env file if it exists
-        if [ -f /etc/abraflexi-zabbix/.env ]; then
-            chown root:zabbix /etc/abraflexi-zabbix/.env 2>/dev/null || true
-            chmod 640 /etc/abraflexi-zabbix/.env
-        fi
+        mkdir -p /etc/ispconfig-zabbix-monitoring
         
         # Set proper permissions for scripts
-        chmod +x /usr/bin/abraflexi-zabbix-lld-company
-        chmod +x /usr/bin/abraflexi-zabbix-status
-        chmod +x /usr/bin/abraflexi-zabbix-network
-        chmod +x /usr/lib/zabbix/externalscripts/abraflexi-update-check.sh 2>/dev/null || true
-
-        # Set proper permissions for Feeder class
-        chmod 644 /usr/lib/abraflexi-zabbix/AbraFlexi/Zabbix/Feeder.php
-
-        # Set proper ownership
-        chown -R zabbix:zabbix /usr/lib/abraflexi-zabbix/ 2>/dev/null || true
+        find /usr/share/ispconfig-zabbix-monitoring/autodiscovery/ -type f -name "*.php" -exec chmod +x {} \; 2>/dev/null || true
+        find /usr/share/ispconfig-zabbix-monitoring/keys/ -type f -name "*.php" -exec chmod +x {} \; 2>/dev/null || true
         
-        # Create cache directory with proper permissions
-        mkdir -p /var/cache/abraflexi-zabbix
-        chown zabbix:zabbix /var/cache/abraflexi-zabbix
-        chmod 755 /var/cache/abraflexi-zabbix
+        # Set proper ownership for library files
+        chown -R root:root /usr/share/ispconfig-zabbix-monitoring/ 2>/dev/null || true
+        chmod -R 644 /usr/share/ispconfig-zabbix-monitoring/lib/*.php 2>/dev/null || true
+        chmod -R 644 /usr/share/ispconfig-zabbix-monitoring/templates/* 2>/dev/null || true
         
         # Restart zabbix-agent if running
-        if systemctl is-active --quiet zabbix-agent; then
+        if systemctl is-active --quiet zabbix-agent >/dev/null 2>&1; then
             systemctl restart zabbix-agent || true
         fi
         
         # Restart zabbix-agent2 if running
-        if systemctl is-active --quiet zabbix-agent2; then
+        if systemctl is-active --quiet zabbix-agent2 >/dev/null 2>&1; then
             systemctl restart zabbix-agent2 || true
         fi
         
-        # Clear debconf database to avoid storing passwords
-        db_purge
-        
-        echo "AbraFlexi Zabbix monitoring installed successfully."
-        echo "Configuration saved to /etc/abraflexi-zabbix/.env"
-        echo "Template is available at /usr/share/doc/abraflexi-zabbix/abraflexi-template.xml"
+        echo "ISPConfig Zabbix monitoring installed successfully."
+        echo "Configuration example: /usr/share/doc/ispconfig-zabbix-monitoring/examples/config.example.php"
+        echo "Templates: /usr/share/ispconfig-zabbix-monitoring/templates/"
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
@@ -90,8 +38,6 @@ EOF
         exit 1
     ;;
 esac
-
-composer-debian abraflexi-zabbix
 
 #DEBHELPER#
 
