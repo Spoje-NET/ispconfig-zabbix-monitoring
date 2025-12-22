@@ -1,10 +1,10 @@
 zabbix_export:
   version: '7.2'
   template_groups:
-    - uuid: 7df96b18-f235-90f9-9181-2c9f04857890
+    - uuid: fd6ec9b2-4bda-4d65-9d8b-6c454aa5d010
       name: 'ISPConfig'
   templates:
-    - uuid: a571c0d1-44b2-41c8-9bc1-2e5e5e5b4c2a
+    - uuid: d60ae4ed-5869-404c-9c44-531a44d2ded6
       template: 'ISPConfig Websites'
       name: 'ISPConfig Websites Monitoring'
       description: |
@@ -28,7 +28,7 @@ zabbix_export:
       groups:
         - name: 'ISPConfig'
       discovery_rules:
-        - uuid: b8c4a59c-4e8e-4e7e-b9b2-c9f04857890a
+        - uuid: cd0fbd6a-8d63-4336-ad63-65868140ab3a
           name: 'ISPConfig Websites Discovery'
           type: ZABBIX_ACTIVE
           key: 'ispconfig.websites.discovery'
@@ -36,7 +36,7 @@ zabbix_export:
           lifetime: 7d
           description: 'Discovers all websites configured in ISPConfig'
           item_prototypes:
-            - uuid: c1d2e3f4-a5b6-c7d8-e9f0-a1b2c3d4e5f6
+            - uuid: 2b8b384a-0c0f-4258-a296-62ff360c4637
               name: 'Website {#DOMAIN}: Active Status'
               type: ZABBIX_ACTIVE
               key: 'ispconfig.website.active[{#WEBSITE_ID}]'
@@ -51,7 +51,7 @@ zabbix_export:
                 - tag: Domain
                   value: '{#DOMAIN}'
               
-            - uuid: d2e3f4a5-b6c7-d8e9-f0a1-b2c3d4e5f6a7
+            - uuid: 346628e0-2843-4433-b835-6de1c831dab0
               name: 'Website {#DOMAIN}: Domain'
               type: ZABBIX_ACTIVE
               key: 'ispconfig.website.domain[{#WEBSITE_ID}]'
@@ -66,7 +66,7 @@ zabbix_export:
                 - tag: Domain
                   value: '{#DOMAIN}'
               
-            - uuid: e3f4a5b6-c7d8-e9f0-a1b2-c3d4e5f6a7b8
+            - uuid: f7bdfee1-007a-4b89-a96d-ea461753b0f1
               name: 'Website {#DOMAIN}: Server ID'
               type: ZABBIX_ACTIVE
               key: 'ispconfig.website.server_id[{#WEBSITE_ID}]'
@@ -81,7 +81,7 @@ zabbix_export:
                 - tag: Domain
                   value: '{#DOMAIN}'
               
-            - uuid: f4a5b6c7-d8e9-f0a1-b2c3-d4e5f6a7b8c9
+            - uuid: 39ffda86-9ade-41f6-afab-2ddb8831d772
               name: 'Website {#DOMAIN}: PHP Version'
               type: ZABBIX_ACTIVE
               key: 'ispconfig.website.php_version[{#WEBSITE_ID}]'
@@ -96,7 +96,7 @@ zabbix_export:
                 - tag: Domain
                   value: '{#DOMAIN}'
               
-            - uuid: a5b6c7d8-e9f0-a1b2-c3d4-e5f6a7b8c9d0
+            - uuid: 4367b8a7-0517-43d4-a795-904cfe5fab9c
               name: 'Website {#DOMAIN}: SSL Enabled'
               type: ZABBIX_ACTIVE
               key: 'ispconfig.website.ssl_enabled[{#WEBSITE_ID}]'
@@ -111,7 +111,7 @@ zabbix_export:
                 - tag: Domain
                   value: '{#DOMAIN}'
               
-            - uuid: b6c7d8e9-f0a1-b2c3-d4e5-f6a7b8c9d0e1
+            - uuid: fb3febd4-7437-4c12-8c6a-73a9188d437e
               name: 'Website {#DOMAIN}: Disk Usage'
               type: ZABBIX_ACTIVE
               key: 'ispconfig.website.disk_usage[{#WEBSITE_ID}]'
@@ -127,7 +127,7 @@ zabbix_export:
                 - tag: Domain
                   value: '{#DOMAIN}'
               
-            - uuid: c7d8e9f0-a1b2-c3d4-e5f6-a7b8c9d0e1f2
+            - uuid: 15a83bb2-a640-40e0-806a-38b5214166e7
               name: 'Website {#DOMAIN}: Disk Quota'
               type: ZABBIX_ACTIVE
               key: 'ispconfig.website.hd_quota[{#WEBSITE_ID}]'
@@ -143,7 +143,7 @@ zabbix_export:
                 - tag: Domain
                   value: '{#DOMAIN}'
               
-            - uuid: d8e9f0a1-b2c3-d4e5-f6a7-b8c9d0e1f2a3
+            - uuid: a91966f6-b7f1-45c7-a0f0-6fd8454909bc
               name: 'Website {#DOMAIN}: Document Root'
               type: ZABBIX_ACTIVE
               key: 'ispconfig.website.document_root[{#WEBSITE_ID}]'
@@ -159,7 +159,7 @@ zabbix_export:
                   value: '{#DOMAIN}'
           
           trigger_prototypes:
-            - uuid: e9f0a1b2-c3d4-e5f6-a7b8-c9d0e1f2a3b4
+            - uuid: c39b3557-5260-4077-9b83-1bfef60526cd
               expression: 'last(/ISPConfig Websites/ispconfig.website.active[{#WEBSITE_ID}])=0'
               name: 'Website {#DOMAIN} is inactive'
               priority: WARNING
@@ -168,7 +168,7 @@ zabbix_export:
                 - tag: Domain
                   value: '{#DOMAIN}'
               
-            - uuid: f0a1b2c3-d4e5-f6a7-b8c9-d0e1f2a3b4c5
+            - uuid: 7b26dfe8-9ddb-4693-8db5-103cee93c11c
               expression: 'last(/ISPConfig Websites/ispconfig.website.disk_usage[{#WEBSITE_ID}])>last(/ISPConfig Websites/ispconfig.website.hd_quota[{#WEBSITE_ID}])*0.9'
               name: 'Website {#DOMAIN} disk usage high (>90%)'
               priority: WARNING
@@ -178,7 +178,7 @@ zabbix_export:
                 - tag: Domain
                   value: '{#DOMAIN}'
               
-            - uuid: a1b2c3d4-e5f6-a7b8-c9d0-e1f2a3b4c5d6
+            - uuid: c2f07c9e-b7bf-4b79-bc43-04d583e5f923
               expression: 'last(/ISPConfig Websites/ispconfig.website.disk_usage[{#WEBSITE_ID}])>=last(/ISPConfig Websites/ispconfig.website.hd_quota[{#WEBSITE_ID}])'
               name: 'Website {#DOMAIN} disk quota exceeded'
               priority: HIGH
@@ -192,7 +192,7 @@ zabbix_export:
                   value: '{#DOMAIN}'
           
           graph_prototypes:
-            - uuid: b2c3d4e5-f6a7-b8c9-d0e1-f2a3b4c5d6e7
+            - uuid: e0ed7a2c-15dd-49f7-a88a-0a99e4ce7002
               name: 'Website {#DOMAIN}: Disk Usage'
               width: '900'
               height: '200'

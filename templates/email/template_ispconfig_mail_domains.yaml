@@ -1,10 +1,10 @@
 zabbix_export:
   version: '7.2'
   template_groups:
-    - uuid: 7df96b18-f235-90f9-9181-2c9f04857890
+    - uuid: fd6ec9b2-4bda-4d65-9d8b-6c454aa5d010
       name: 'ISPConfig'
   templates:
-    - uuid: f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1
+    - uuid: aebb4199-8f04-43bf-b257-f3c84b4f2eb4
       template: 'ISPConfig Mail Domains'
       name: 'ISPConfig Mail Domains Monitoring'
       description: |
@@ -28,7 +28,7 @@ zabbix_export:
       groups:
         - name: 'ISPConfig'
       discovery_rules:
-        - uuid: a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2
+        - uuid: 9f9afe45-23db-4a07-b292-45ac66ae686d
           name: 'ISPConfig Mail Domains Discovery'
           type: ZABBIX_ACTIVE
           key: 'ispconfig.mail_domains.discovery'
@@ -36,7 +36,7 @@ zabbix_export:
           lifetime: 14d
           description: 'Discovers all mail domains configured in ISPConfig'
           item_prototypes:
-            - uuid: b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3
+            - uuid: f3bfc2f7-d46c-4505-879f-932a3ef85a5f
               name: 'Domain {#DOMAIN}: Active Status'
               type: ZABBIX_ACTIVE
               key: 'ispconfig.mail_domain.active[{#MAIL_DOMAIN_ID}]'
@@ -51,7 +51,7 @@ zabbix_export:
                 - tag: Domain
                   value: '{#DOMAIN}'
               
-            - uuid: c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4
+            - uuid: af89ca9e-bb51-4818-abf6-170bbd7db252
               name: 'Domain {#DOMAIN}: Domain Name'
               type: ZABBIX_ACTIVE
               key: 'ispconfig.mail_domain.domain[{#MAIL_DOMAIN_ID}]'
@@ -66,7 +66,7 @@ zabbix_export:
                 - tag: Domain
                   value: '{#DOMAIN}'
               
-            - uuid: d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5
+            - uuid: 93b9d713-852b-4aaf-9271-b92a967af0f9
               name: 'Domain {#DOMAIN}: Catch-all Address'
               type: ZABBIX_ACTIVE
               key: 'ispconfig.mail_domain.mail_catchall[{#MAIL_DOMAIN_ID}]'
@@ -79,7 +79,7 @@ zabbix_export:
                 - tag: Application
                   value: 'ISPConfig Email'
               
-            - uuid: e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6
+            - uuid: b0c3598a-cf54-414c-8c24-5e07dd5c3906
               name: 'Domain {#DOMAIN}: Account Count'
               type: ZABBIX_ACTIVE
               key: 'ispconfig.mail_domain.account_count[{#MAIL_DOMAIN_ID}]'
@@ -92,7 +92,7 @@ zabbix_export:
                 - tag: Application
                   value: 'ISPConfig Email'
               
-            - uuid: f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7
+            - uuid: b672338d-4743-449e-92fa-9543d346867f
               name: 'Domain {#DOMAIN}: Total Quota'
               type: ZABBIX_ACTIVE
               key: 'ispconfig.mail_domain.total_quota[{#MAIL_DOMAIN_ID}]'
@@ -106,7 +106,7 @@ zabbix_export:
                 - tag: Application
                   value: 'ISPConfig Email'
               
-            - uuid: a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8
+            - uuid: 53c9ac62-ac35-4f50-8255-904266f194de
               name: 'Domain {#DOMAIN}: Total Usage'
               type: ZABBIX_ACTIVE
               key: 'ispconfig.mail_domain.total_used[{#MAIL_DOMAIN_ID}]'
@@ -121,7 +121,7 @@ zabbix_export:
                   value: 'ISPConfig Email'
           
           trigger_prototypes:
-            - uuid: b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9
+            - uuid: 3f5cadc6-4778-48cb-8d74-d45344762bc3
               expression: 'last(/ISPConfig Mail Domains/ispconfig.mail_domain.active[{#MAIL_DOMAIN_ID}])=0'
               name: 'Mail domain {#DOMAIN} is inactive'
               priority: WARNING
@@ -130,7 +130,7 @@ zabbix_export:
                 - tag: Domain
                   value: '{#DOMAIN}'
               
-            - uuid: c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0
+            - uuid: 24f6648a-3b9a-4ac4-9d44-6361b9926bbb
               expression: 'last(/ISPConfig Mail Domains/ispconfig.mail_domain.account_count[{#MAIL_DOMAIN_ID}])=0'
               name: 'Mail domain {#DOMAIN} has no email accounts'
               priority: INFO
@@ -141,7 +141,7 @@ zabbix_export:
                   value: '{#DOMAIN}'
           
           graph_prototypes:
-            - uuid: d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1
+            - uuid: 05c941e3-1b3d-45e0-9bb1-a746302cb191
               name: 'Domain {#DOMAIN}: Mailbox Usage'
               width: '900'
               height: '200'
