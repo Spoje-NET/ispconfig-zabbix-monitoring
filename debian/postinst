@@ -61,6 +61,19 @@ EOF
         chmod -R 644 /usr/share/ispconfig-zabbix-monitoring/lib/*.php 2>/dev/null || true
         chmod -R 644 /usr/share/ispconfig-zabbix-monitoring/templates/* 2>/dev/null || true
         
+        # Install Zabbix agent configuration
+        if [ -d /etc/zabbix/zabbix_agentd.d ]; then
+            cp /usr/share/doc/ispconfig-zabbix-monitoring/examples/ispconfig-monitoring.conf /etc/zabbix/zabbix_agentd.d/
+            chmod 644 /etc/zabbix/zabbix_agentd.d/ispconfig-monitoring.conf
+            echo "Zabbix agent configuration installed to /etc/zabbix/zabbix_agentd.d/"
+        fi
+        
+        if [ -d /etc/zabbix/zabbix_agent2.d ]; then
+            cp /usr/share/doc/ispconfig-zabbix-monitoring/examples/ispconfig-monitoring.conf /etc/zabbix/zabbix_agent2.d/
+            chmod 644 /etc/zabbix/zabbix_agent2.d/ispconfig-monitoring.conf
+            echo "Zabbix agent2 configuration installed to /etc/zabbix/zabbix_agent2.d/"
+        fi
+        
         # Restart zabbix-agent if running
         if systemctl is-active --quiet zabbix-agent >/dev/null 2>&1; then
             systemctl restart zabbix-agent || true

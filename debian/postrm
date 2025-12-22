@@ -12,6 +12,10 @@ case "$1" in
         # Remove all configuration files
         rm -rf /etc/ispconfig-zabbix-monitoring/ 2>/dev/null || true
         
+        # Remove Zabbix agent configuration
+        rm -f /etc/zabbix/zabbix_agentd.d/ispconfig-monitoring.conf 2>/dev/null || true
+        rm -f /etc/zabbix/zabbix_agent2.d/ispconfig-monitoring.conf 2>/dev/null || true
+        
         # Restart zabbix-agent if running
         if systemctl is-active --quiet zabbix-agent >/dev/null 2>&1; then
             systemctl restart zabbix-agent || true

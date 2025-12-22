@@ -1,10 +1,11 @@
-ispconfig-zabbix-monitoring (0.2~bookworm) UNRELEASED; urgency=medium
+ispconfig-zabbix-monitoring (0.3~bookworm) UNRELEASED; urgency=medium
 
   * Non-maintainer upload.
   * Fix postinst and postrm scripts - remove abraflexi references
   * Add debconf configuration for ISPConfig credentials
+  * Add Zabbix agent configuration file
 
- -- Vitex <vitezslav.dvorak@spojenet.cz>  Mon, 22 Dec 2025 17:25:16 +0100
+ -- Vitex <vitezslav.dvorak@spojenet.cz>  Mon, 22 Dec 2025 17:51:08 +0100
 
 ispconfig-zabbix-monitoring (0.1) unstable; urgency=medium
 
