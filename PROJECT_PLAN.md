@@ -67,6 +67,7 @@ Development plan for creating a comprehensive monitoring ecosystem for ISPConfig
 - Database size monitoring
 - Connection status
 - User quotas
+- Connection status
 
 #### 3.4 System Module
 - Server load metrics

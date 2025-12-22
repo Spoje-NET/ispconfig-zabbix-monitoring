@@ -48,8 +48,8 @@ return [
     // Modules to monitor (enable/disable specific modules)
     'modules' => [
         'websites' => true,
+        'email' => false,     // Enable to monitor email accounts
         'databases' => false, // To be implemented
-        'email' => false,     // To be implemented
         'dns' => false,       // To be implemented
         'ftp' => false,       // To be implemented
     ],
