@@ -183,6 +183,8 @@ class ISPConfigClient
     /**
      * Retrieve active mail users from ISPConfig.
      *
+     * Note: Requires remote user with mail_user permissions in ISPConfig.
+     *
      * @throws ISPConfigException
      *
      * @return array Array of email records
@@ -193,7 +195,7 @@ class ISPConfigClient
 
         try {
             $emails = $this->executeWithRetry(function () use ($sessionId) {
-                return $this->client->sites_mail_user_get($sessionId, ['active' => 'y']);
+                return $this->client->mail_user_get($sessionId, ['active' => 'y']);
             });
 
             return \is_array($emails) ? $emails : [];
@@ -205,6 +207,8 @@ class ISPConfigClient
     /**
      * Retrieve a mail user by its ID.
      *
+     * Note: Requires remote user with mail_user permissions in ISPConfig.
+     *
      * @param int $emailId The mail user ID to fetch.
      * @return array|null Email record as an associative array if found, `null` otherwise.
      * @throws ISPConfigException If the API call fails.
@@ -215,7 +219,7 @@ class ISPConfigClient
 
         try {
             $email = $this->executeWithRetry(function () use ($sessionId, $emailId) {
-                return $this->client->sites_mail_user_get($sessionId, ['mailuser_id' => $emailId]);
+                return $this->client->mail_user_get($sessionId, ['mailuser_id' => $emailId]);
             });
 
             if (\is_array($email) && !empty($email)) {
@@ -231,6 +235,8 @@ class ISPConfigClient
     /**
      * Retrieve active mail domains from ISPConfig.
      *
+     * Note: Requires remote user with mail_domain permissions in ISPConfig.
+     *
      * @throws ISPConfigException
      *
      * @return array Array of mail domain records
@@ -241,7 +247,7 @@ class ISPConfigClient
 
         try {
             $domains = $this->executeWithRetry(function () use ($sessionId) {
-                return $this->client->sites_mail_domain_get($sessionId, ['active' => 'y']);
+                return $this->client->mail_domain_get($sessionId, ['active' => 'y']);
             });
 
             return \is_array($domains) ? $domains : [];
@@ -253,6 +259,8 @@ class ISPConfigClient
     /**
      * Retrieve a mail domain record by its ID.
      *
+     * Note: Requires remote user with mail_domain permissions in ISPConfig.
+     *
      * @param int $domainId The mail domain ID to fetch.
      * @return array|null An associative array representing the mail domain record, or `null` if no record was found.
      * @throws ISPConfigException If the SOAP request fails or an error occurs while fetching the domain.
@@ -263,7 +271,7 @@ class ISPConfigClient
 
         try {
             $domain = $this->executeWithRetry(function () use ($sessionId, $domainId) {
-                return $this->client->sites_mail_domain_get($sessionId, ['mail_domain_id' => $domainId]);
+                return $this->client->mail_domain_get($sessionId, ['mail_domain_id' => $domainId]);
             });
 
             if (\is_array($domain) && !empty($domain)) {
@@ -279,6 +287,8 @@ class ISPConfigClient
     /**
      * Retrieve statistics for a mail domain.
      *
+     * Note: Requires remote user with mail_domain permissions in ISPConfig.
+     *
      * @throws ISPConfigException
      *
      * @return array Statistics data
@@ -289,7 +299,7 @@ class ISPConfigClient
 
         try {
             $stats = $this->executeWithRetry(function () use ($sessionId, $domainId) {
-                return $this->client->sites_mail_domain_get_stats($sessionId, $domainId);
+                return $this->client->mail_domain_get_stats($sessionId, $domainId);
             });
 
             return \is_array($stats) ? $stats : [];

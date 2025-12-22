@@ -1,8 +1,10 @@
-ispconfig-zabbix-monitoring (0.5.4) UNRELEASED; urgency=medium
+ispconfig-zabbix-monitoring (0.5.5) UNRELEASED; urgency=medium
 
   * Added missing email and mail domain methods from zabbix-email branch
+  * Fixed SOAP method names - use mail_user_get and mail_domain_get
+    without sites_ prefix
 
- -- Vitex <vitezslav.dvorak@spojenet.cz>  Mon, 22 Dec 2025 19:54:21 +0100
+ -- Vitex <vitezslav.dvorak@spojenet.cz>  Mon, 22 Dec 2025 20:01:59 +0100
 
 ispconfig-zabbix-monitoring (0.5.3) unstable; urgency=medium
 

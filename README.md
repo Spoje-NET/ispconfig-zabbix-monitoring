@@ -35,6 +35,27 @@ ispconfig-zabbix-monitoring
 └── LICENSE
 ```
 
+## Requirements
+
+### ISPConfig Remote User Permissions
+
+The ISPConfig remote user used for monitoring must have the following permissions enabled:
+
+**For Websites Module:**
+- Sites functions → `sites_web_domain_get`
+
+**For Email Modules:**
+- Mail User functions → `mail_user_get`
+- Mail Domain functions → `mail_domain_get`
+
+To configure permissions in ISPConfig:
+1. Go to **System → Remote Users**
+2. Edit or create a remote user
+3. Enable the required function checkboxes in the **Functions** section
+4. Save the user
+
+**Note:** Without these permissions, the monitoring scripts will fail with "You do not have the permissions to access this function" errors.
+
 ## Installation
 
 ### Debian/Ubuntu Package Installation

@@ -81,7 +81,7 @@ function getMailDomainStats(ISPConfigClient $ispconfig, int $domainId): array
 {
     try {
         // Get all emails for this domain
-        $emails = $ispconfig->call('sites_mail_user_get', [['mail_domain_id' => $domainId]]);
+        $emails = $ispconfig->call('mail_user_get', [['mail_domain_id' => $domainId]]);
 
         if (!\is_array($emails)) {
             return ['account_count' => 0, 'total_quota' => 0, 'total_used' => 0];
