@@ -1,3 +1,4 @@
+composer.json usr/share/ispconfig-zabbix-monitoring/
 src/autodiscovery/* usr/share/ispconfig-zabbix-monitoring/autodiscovery/
 src/keys/* usr/share/ispconfig-zabbix-monitoring/keys/
 src/lib/* usr/share/ispconfig-zabbix-monitoring/lib/

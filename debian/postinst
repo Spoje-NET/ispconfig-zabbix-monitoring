@@ -101,6 +101,8 @@ EOF
     ;;
 esac
 
+composer-debian ispconfig-zabbix-monitoring
+
 #DEBHELPER#
 
 exit 0
