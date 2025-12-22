@@ -16,3 +16,6 @@ override_dh_install:
 	# Fix vendor autoload paths in installed scripts (point to system composer directory)
 	sed -i "s#__DIR__\.'/.*/vendor/autoload\.php'#'/var/lib/composer/ispconfig-zabbix-monitoring/autoload.php'#g" debian/ispconfig-zabbix-monitoring/usr/lib/ispconfig-zabbix-monitoring/autodiscovery/*.php
 	sed -i "s#__DIR__\.'/.*/vendor/autoload\.php'#'/var/lib/composer/ispconfig-zabbix-monitoring/autoload.php'#g" debian/ispconfig-zabbix-monitoring/usr/lib/ispconfig-zabbix-monitoring/keys/*.php
+	# Fix config file paths to use /etc location
+	sed -i "s#__DIR__\.'/.*/config/config\.php'#'/etc/ispconfig-zabbix-monitoring/config.php'#g" debian/ispconfig-zabbix-monitoring/usr/lib/ispconfig-zabbix-monitoring/autodiscovery/*.php
+	sed -i "s#__DIR__\.'/.*/config/config\.php'#'/etc/ispconfig-zabbix-monitoring/config.php'#g" debian/ispconfig-zabbix-monitoring/usr/lib/ispconfig-zabbix-monitoring/keys/*.php

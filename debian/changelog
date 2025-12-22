@@ -1,3 +1,9 @@
+ispconfig-zabbix-monitoring (0.4.8) unstable; urgency=medium
+
+  * Fix config file paths to use /etc location
+
+ -- Vitex <vitezslav.dvorak@spojenet.cz>  Mon, 22 Dec 2025 18:56:57 +0100
+
 ispconfig-zabbix-monitoring (0.4.7) unstable; urgency=medium
 
   * Fix autoload path replacement with wildcard pattern
