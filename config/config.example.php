@@ -10,11 +10,11 @@ declare(strict_types=1);
 
 return [
       // ISPConfig SOAP API Configuration
-    'soap_uri' => 'https://m.spoje.net/remote/',
-    'soap_location' => 'https://m.spoje.net/remote/index.php',
+    'soap_uri' => '',
+    'soap_location' => '',
     // ISPConfig API Credentials
-    'username' => 'FBsystem',
-    'password' => 'xorigQLbBLA_7',
+    'username' => '',
+    'password' => '',
     
     // SSL Verification
     // Set to false only if using self-signed certificates (not recommended for production)
