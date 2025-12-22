@@ -37,27 +37,54 @@ ispconfig-zabbix-monitoring
 
 ## Installation
 
+### Debian/Ubuntu Package Installation
+
+The repository with packages for Debian & Ubuntu is available:
+
+```bash
+sudo apt install lsb-release wget apt-transport-https
+wget -qO- https://repo.vitexsoftware.com/keyring.gpg | sudo tee /etc/apt/trusted.gpg.d/vitexsoftware.gpg
+echo "deb [signed-by=/etc/apt/trusted.gpg.d/vitexsoftware.gpg] https://repo.vitexsoftware.com $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/vitexsoftware.list
+sudo apt update
+sudo apt install ispconfig-zabbix-monitoring
+```
+
+During installation, you'll be prompted for:
+- ISPConfig Remote API URL
+- ISPConfig API username
+- ISPConfig API password
+
+The configuration will be saved to `/etc/ispconfig-zabbix-monitoring/config.php`.
+
+To reconfigure after installation:
+```bash
+sudo dpkg-reconfigure ispconfig-zabbix-monitoring
+```
+
+### Manual Installation
+
 1. Clone the repository:
-   ```
-   git clone https://your-repo-url.git
+   ```bash
+   git clone https://github.com/Spoje-NET/ispconfig-zabbix-monitoring.git
    cd ispconfig-zabbix-monitoring
    ```
 
 2. Install dependencies using Composer:
-   ```
+   ```bash
    composer install
    ```
 
 3. Configure the project by copying the example configuration file:
-   ```
+   ```bash
    cp config/config.example.php config/config.php
    ```
 
    Edit `config/config.php` to add your ISPConfig API credentials.
 
-4. Run the installation script to set up the environment:
-   ```
-   ./scripts/install.sh
+4. Copy the Zabbix agent configuration:
+   ```bash
+   sudo cp config/zabbix_agentd.d/ispconfig-monitoring.conf /etc/zabbix/zabbix_agentd.d/
+   sudo systemctl restart zabbix-agent
    ```
 
 ## Usage
@@ -102,10 +129,45 @@ Import the following templates into Zabbix:
 - `templates/email/template_ispconfig_mail_accounts.yaml` - Email accounts monitoring
 - `templates/email/template_ispconfig_mail_domains.yaml` - Mail domains monitoring
 
-## Contribution
+## Zabbix Configuration
 
-Contributions are welcome! Please fork the repository and submit a pull request with your changes. Make sure to follow the coding standards and include tests for new features.
+After installation, the Zabbix agent configuration is automatically installed to:
+- `/etc/zabbix/zabbix_agentd.d/ispconfig-monitoring.conf` (Zabbix Agent 1)
+- `/etc/zabbix/zabbix_agent2.d/ispconfig-monitoring.conf` (Zabbix Agent 2)
+
+The following UserParameters are available:
+- `ispconfig.websites.discovery` - Website autodiscovery
+- `ispconfig.website[*]` - Website metrics
+- `ispconfig.emails.discovery` - Email account autodiscovery
+- `ispconfig.email[*]` - Email account metrics
+- `ispconfig.maildomains.discovery` - Mail domain autodiscovery
+- `ispconfig.maildomain[*]` - Mail domain metrics
+
+## Testing
+
+The project includes a comprehensive test suite:
+
+```bash
+composer install
+vendor/bin/phpunit
+```
+
+42 tests with 82 assertions covering:
+- ISPConfigClient configuration validation and error handling
+- ZabbixHelper data formatting and discovery
+- Value conversion (numeric, boolean, bytes, timestamps)
+- LLD data validation
 
 ## License
 
 This project is licensed under the MIT License. See the LICENSE file for more details.
+
+## Contributing
+
+Contributions are welcome! Please:
+1. Fork the repository
+2. Create a feature branch
+3. Add tests for new features
+4. Submit a pull request
+
+Follow the existing code style and ensure all tests pass before submitting.
