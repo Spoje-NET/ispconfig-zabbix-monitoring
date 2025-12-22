@@ -1,21 +1,33 @@
 <?php
+
 declare(strict_types=1);
 
 /**
- * ISPConfig Mail Domains Autodiscovery Script
- * 
+ * This file is part of the ISPConfig Zabbix Monitoring package.
+ *
+ * (c) Spoje-NET <info@spoje.net>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+require_once __DIR__.'/../../vendor/autoload.php';
+
+/**
+ * ISPConfig Mail Domains Autodiscovery Script.
+ *
  * This script discovers all mail domains configured in ISPConfig
  * and outputs them in Zabbix Low-Level Discovery (LLD) JSON format.
- * 
+ *
  * Usage: php mail_domains.php
- * 
+ *
  * Output: JSON array with discovered mail domains and their macros:
  *   - {#MAIL_DOMAIN_ID}: Mail domain ID
  *   - {#DOMAIN}: Domain name
  *   - {#SERVER_ID}: Server ID
  *   - {#ACTIVE}: Active status (1/0)
  *   - {#CATCH_ALL}: Catch-all email address
- * 
+ *
  * Example output:
  * {
  *   "data": [
@@ -30,8 +42,6 @@ declare(strict_types=1);
  * }
  */
 
-require_once __DIR__ . '/../../vendor/autoload.php';
-
 use ISPConfigMonitoring\ISPConfigClient;
 use ISPConfigMonitoring\ISPConfigException;
 use ISPConfigMonitoring\ZabbixHelper;
@@ -41,8 +51,9 @@ use ISPConfigMonitoring\ZabbixHelper;
  *
  * If a record does not contain `mail_catchall`, the field is added with an empty string value.
  *
- * @param array $domains Array of mail domain records (associative arrays).
- * @return array The input records with `mail_catchall` guaranteed to exist on each entry.
+ * @param array $domains array of mail domain records (associative arrays)
+ *
+ * @return array the input records with `mail_catchall` guaranteed to exist on each entry
  */
 function enrichMailDomainData(array $domains): array
 {
@@ -61,9 +72,11 @@ function enrichMailDomainData(array $domains): array
 }
 
 // Load configuration
-$configFile = __DIR__ . '/../../config/config.php';
+$configFile = __DIR__.'/../../config/config.php';
+
 if (!file_exists($configFile)) {
     error_log("Configuration file not found: {$configFile}");
+
     exit(1);
 }
 
@@ -71,7 +84,8 @@ $config = require $configFile;
 
 // Check if email module is enabled
 if (empty($config['modules']['email'])) {
-    error_log("Email module is disabled in configuration");
+    error_log('Email module is disabled in configuration');
+
     exit(1);
 }
 
@@ -79,34 +93,35 @@ try {
     // Initialize clients
     $ispconfig = new ISPConfigClient($config);
     $zabbix = new ZabbixHelper();
-    
+
     // Get mail domains
     $domains = $ispconfig->getMailDomains();
-    
+
     if (empty($domains)) {
         // No domains found, return empty LLD
         $discovery = ['data' => []];
     } else {
         // Enrich data with calculated fields
         $domains = enrichMailDomainData($domains);
-        
+
         // Format for Zabbix LLD
         $discovery = $zabbix->formatMailDomainsDiscovery($domains);
     }
-    
+
     // Validate and output
     if ($zabbix->validateLLDData($discovery)) {
         $zabbix->outputJSON($discovery);
+
         exit(0);
-    } else {
-        throw new Exception("Invalid LLD data format");
     }
-    
+
+    throw new Exception('Invalid LLD data format');
 } catch (ISPConfigException $e) {
-    error_log("ISPConfig API Error: " . $e->getMessage());
+    error_log('ISPConfig API Error: '.$e->getMessage());
+
     exit(1);
-    
 } catch (Exception $e) {
-    error_log("Autodiscovery Error: " . $e->getMessage());
+    error_log('Autodiscovery Error: '.$e->getMessage());
+
     exit(1);
 }

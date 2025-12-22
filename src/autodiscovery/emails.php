@@ -1,14 +1,26 @@
 <?php
+
 declare(strict_types=1);
 
 /**
- * ISPConfig Emails Autodiscovery Script
- * 
+ * This file is part of the ISPConfig Zabbix Monitoring package.
+ *
+ * (c) Spoje-NET <info@spoje.net>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+require_once __DIR__.'/../../vendor/autoload.php';
+
+/**
+ * ISPConfig Emails Autodiscovery Script.
+ *
  * This script discovers all email accounts configured in ISPConfig
  * and outputs them in Zabbix Low-Level Discovery (LLD) JSON format.
- * 
+ *
  * Usage: php emails.php
- * 
+ *
  * Output: JSON array with discovered emails and their macros:
  *   - {#MAIL_USER_ID}: Email account ID
  *   - {#EMAIL}: Full email address
@@ -17,7 +29,7 @@ declare(strict_types=1);
  *   - {#QUOTA}: Mailbox quota in bytes
  *   - {#USED}: Currently used space in bytes
  *   - {#ACTIVE}: Active status (1/0)
- * 
+ *
  * Example output:
  * {
  *   "data": [
@@ -34,8 +46,6 @@ declare(strict_types=1);
  * }
  */
 
-require_once __DIR__ . '/../../vendor/autoload.php';
-
 use ISPConfigMonitoring\ISPConfigClient;
 use ISPConfigMonitoring\ISPConfigException;
 use ISPConfigMonitoring\ZabbixHelper;
@@ -48,7 +58,8 @@ use ISPConfigMonitoring\ZabbixHelper;
  * `usage_percent` is set to 0.
  *
  * @param array $emails List of email records. Individual records may include `quota` and `used` keys.
- * @return array The list of email records with an added `usage_percent` integer field for each record.
+ *
+ * @return array the list of email records with an added `usage_percent` integer field for each record
  */
 function enrichEmailData(array $emails): array
 {
@@ -57,10 +68,10 @@ function enrichEmailData(array $emails): array
 
     foreach ($emails as $email) {
         // Calculate usage percentage if quota exists
-        if (isset($email['quota']) && isset($email['used'])) {
-            $quota = intval($email['quota'] ?? 0);
-            $used = intval($email['used'] ?? 0);
-            $email['usage_percent'] = $quota > 0 ? 
+        if (isset($email['quota'], $email['used'])) {
+            $quota = (int) ($email['quota'] ?? 0);
+            $used = (int) ($email['used'] ?? 0);
+            $email['usage_percent'] = $quota > 0 ?
                 (int) $helper->calculateEmailUsagePercent($used, $quota) : 0;
         } else {
             $email['usage_percent'] = 0;
@@ -73,9 +84,11 @@ function enrichEmailData(array $emails): array
 }
 
 // Load configuration
-$configFile = __DIR__ . '/../../config/config.php';
+$configFile = __DIR__.'/../../config/config.php';
+
 if (!file_exists($configFile)) {
     error_log("Configuration file not found: {$configFile}");
+
     exit(1);
 }
 
@@ -83,7 +96,8 @@ $config = require $configFile;
 
 // Check if email module is enabled
 if (empty($config['modules']['email'])) {
-    error_log("Email module is disabled in configuration");
+    error_log('Email module is disabled in configuration');
+
     exit(1);
 }
 
@@ -91,34 +105,35 @@ try {
     // Initialize clients
     $ispconfig = new ISPConfigClient($config);
     $zabbix = new ZabbixHelper();
-    
+
     // Get email accounts
     $emails = $ispconfig->getEmails();
-    
+
     if (empty($emails)) {
         // No emails found, return empty LLD
         $discovery = ['data' => []];
     } else {
         // Enrich data with calculated fields
         $emails = enrichEmailData($emails);
-        
+
         // Format for Zabbix LLD
         $discovery = $zabbix->formatEmailsDiscovery($emails);
     }
-    
+
     // Validate and output
     if ($zabbix->validateLLDData($discovery)) {
         $zabbix->outputJSON($discovery);
+
         exit(0);
-    } else {
-        throw new Exception("Invalid LLD data format");
     }
-    
+
+    throw new Exception('Invalid LLD data format');
 } catch (ISPConfigException $e) {
-    error_log("ISPConfig API Error: " . $e->getMessage());
+    error_log('ISPConfig API Error: '.$e->getMessage());
+
     exit(1);
-    
 } catch (Exception $e) {
-    error_log("Autodiscovery Error: " . $e->getMessage());
+    error_log('Autodiscovery Error: '.$e->getMessage());
+
     exit(1);
 }

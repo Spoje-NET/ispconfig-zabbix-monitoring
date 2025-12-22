@@ -17,3 +17,4 @@ debian/debhelper-build-stamp
 debian/ispconfig-zabbix-monitoring.substvars
 debian/ispconfig-zabbix-monitoring.postrm.debhelper
 /nbproject/private/
+.build/
