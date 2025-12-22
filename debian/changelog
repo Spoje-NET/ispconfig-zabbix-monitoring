@@ -1,3 +1,9 @@
+ispconfig-zabbix-monitoring (0.5.3) unstable; urgency=medium
+
+  * Add informative message about config file permissions
+
+ -- Vitex <vitezslav.dvorak@spojenet.cz>  Mon, 22 Dec 2025 19:27:01 +0100
+
 ispconfig-zabbix-monitoring (0.5.2) unstable; urgency=medium
 
   * Fix composer.json autoload path using sed

@@ -100,7 +100,11 @@ EOF
         
         echo "ISPConfig Zabbix monitoring installed successfully."
         echo "Configuration saved to /etc/ispconfig-zabbix-monitoring/config.php"
+        echo "  (readable by root and zabbix group for security)"
         echo "Templates: /usr/lib/ispconfig-zabbix-monitoring/templates/"
+        echo ""
+        echo "To test scripts manually, add your user to zabbix group:"
+        echo "  sudo usermod -a -G zabbix YOUR_USER"
         echo "To reconfigure: dpkg-reconfigure ispconfig-zabbix-monitoring"
     ;;
 
