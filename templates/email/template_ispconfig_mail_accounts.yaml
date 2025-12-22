@@ -1,7 +1,7 @@
 zabbix_export:
   version: '7.2'
   template_groups:
-    - uuid: 7df96b18f23590f991812c9f04857890
+    - uuid: 7df96b18-f235-90f9-9181-2c9f04857890
       name: 'ISPConfig'
   templates:
     - uuid: c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0
