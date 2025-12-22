@@ -1,10 +1,10 @@
 zabbix_export:
   version: '7.2'
   template_groups:
-    - uuid: fd6ec9b2-4bda-4d65-9d8b-6c454aa5d010
+    - uuid: fd6ec9b24bda4d659d8b6c454aa5d010
       name: 'ISPConfig'
   templates:
-    - uuid: 24f6648a-3b9a-4ac4-9d44-6361b9926bbb
+    - uuid: 24f6648a3b9a4ac49d446361b9926bbb
       template: 'ISPConfig Email Accounts'
       name: 'ISPConfig Email Accounts Monitoring'
       description: |
@@ -28,7 +28,7 @@ zabbix_export:
       groups:
         - name: 'ISPConfig'
       discovery_rules:
-        - uuid: 5e11a7cf-ab49-4f99-9814-46f744f78fcf
+        - uuid: 5e11a7cfab494f99981446f744f78fcf
           name: 'ISPConfig Email Accounts Discovery'
           type: ZABBIX_ACTIVE
           key: 'ispconfig.emails.discovery'
@@ -36,7 +36,7 @@ zabbix_export:
           lifetime: 7d
           description: 'Discovers all email accounts configured in ISPConfig'
           item_prototypes:
-            - uuid: a04b15e6-cf8a-4c34-aa54-c2913c1a5b90
+            - uuid: a04b15e6cf8a4c34aa54c2913c1a5b90
               name: 'Email {#EMAIL}: Active Status'
               type: ZABBIX_ACTIVE
               key: 'ispconfig.email.active[{#MAIL_USER_ID}]'
@@ -51,7 +51,7 @@ zabbix_export:
                 - tag: Email
                   value: '{#EMAIL}'
               
-            - uuid: 8a64fe2f-3e84-4518-af2f-5f1fb21cd8eb
+            - uuid: 8a64fe2f3e844518af2f5f1fb21cd8eb
               name: 'Email {#EMAIL}: Email Address'
               type: ZABBIX_ACTIVE
               key: 'ispconfig.email.email[{#MAIL_USER_ID}]'
@@ -66,7 +66,7 @@ zabbix_export:
                 - tag: Email
                   value: '{#EMAIL}'
               
-            - uuid: 5669e98c-dbb5-4e4b-b7fe-ccdb5d734eb6
+            - uuid: 5669e98cdbb54e4bb7feccdb5d734eb6
               name: 'Email {#EMAIL}: Domain'
               type: ZABBIX_ACTIVE
               key: 'ispconfig.email.domain[{#MAIL_USER_ID}]'
@@ -79,7 +79,7 @@ zabbix_export:
                 - tag: Application
                   value: 'ISPConfig Email'
               
-            - uuid: 28fa68e4-d727-4178-8380-468af19e6eed
+            - uuid: 28fa68e4d72741788380468af19e6eed
               name: 'Email {#EMAIL}: Mailbox Usage'
               type: ZABBIX_ACTIVE
               key: 'ispconfig.email.used[{#MAIL_USER_ID}]'
@@ -93,7 +93,7 @@ zabbix_export:
                 - tag: Application
                   value: 'ISPConfig Email'
               
-            - uuid: c290788c-30ab-4834-9d46-f040a3a46561
+            - uuid: c290788c30ab48349d46f040a3a46561
               name: 'Email {#EMAIL}: Mailbox Quota'
               type: ZABBIX_ACTIVE
               key: 'ispconfig.email.quota[{#MAIL_USER_ID}]'
@@ -107,7 +107,7 @@ zabbix_export:
                 - tag: Application
                   value: 'ISPConfig Email'
               
-            - uuid: d6e895f9-fa36-4aaa-8fe2-438abb5b4cea
+            - uuid: d6e895f9fa364aaa8fe2438abb5b4cea
               name: 'Email {#EMAIL}: Usage Percentage'
               type: ZABBIX_ACTIVE
               key: 'ispconfig.email.usage_percent[{#MAIL_USER_ID}]'
@@ -121,7 +121,7 @@ zabbix_export:
                 - tag: Application
                   value: 'ISPConfig Email'
               
-            - uuid: 05c7db66-32e3-4891-b5e0-32a872a4169f
+            - uuid: 05c7db6632e34891b5e032a872a4169f
               name: 'Email {#EMAIL}: Spamfilter Enabled'
               type: ZABBIX_ACTIVE
               key: 'ispconfig.email.spamfilter_enabled[{#MAIL_USER_ID}]'
@@ -134,7 +134,7 @@ zabbix_export:
                 - tag: Application
                   value: 'ISPConfig Email'
               
-            - uuid: 939711d7-533c-4c11-808b-4f4c03df1e89
+            - uuid: 939711d7533c4c11808b4f4c03df1e89
               name: 'Email {#EMAIL}: Antivirus Enabled'
               type: ZABBIX_ACTIVE
               key: 'ispconfig.email.antivirus_enabled[{#MAIL_USER_ID}]'
@@ -148,7 +148,7 @@ zabbix_export:
                   value: 'ISPConfig Email'
           
           trigger_prototypes:
-            - uuid: 3faec525-54ba-4d34-9b1a-79859a5636c8
+            - uuid: 3faec52554ba4d349b1a79859a5636c8
               expression: 'last(/ISPConfig Email Accounts/ispconfig.email.active[{#MAIL_USER_ID}])=0'
               name: 'Email {#EMAIL} is inactive'
               priority: WARNING
@@ -157,7 +157,7 @@ zabbix_export:
                 - tag: Email
                   value: '{#EMAIL}'
               
-            - uuid: 64fa1762-2a63-4890-8981-176777d1e93e
+            - uuid: 64fa17622a6348908981176777d1e93e
               expression: 'last(/ISPConfig Email Accounts/ispconfig.email.usage_percent[{#MAIL_USER_ID}])>90'
               name: 'Email {#EMAIL} mailbox usage high (>90%)'
               priority: WARNING
@@ -167,7 +167,7 @@ zabbix_export:
                 - tag: Email
                   value: '{#EMAIL}'
               
-            - uuid: a334b730-1287-42c1-ba93-d11b1b79b84b
+            - uuid: a334b730128742c1ba93d11b1b79b84b
               expression: 'last(/ISPConfig Email Accounts/ispconfig.email.usage_percent[{#MAIL_USER_ID}])>=100'
               name: 'Email {#EMAIL} mailbox quota exceeded'
               priority: HIGH
@@ -180,7 +180,7 @@ zabbix_export:
                   value: '{#EMAIL}'
           
           graph_prototypes:
-            - uuid: 7c35e7fb-cc2a-4049-a5d2-342ebb675c19
+            - uuid: 7c35e7fbcc2a4049a5d2342ebb675c19
               name: 'Email {#EMAIL}: Mailbox Usage'
               width: '900'
               height: '200'
