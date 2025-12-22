@@ -8,6 +8,6 @@ Homepage: https://github.com/Spoje-NET/ispconfig-zabbix-monitoring
 
 Package: ispconfig-zabbix-monitoring
 Architecture: all
-Depends: ${misc:Depends}, php, php-curl, php-yaml, php-soap
+Depends: ${misc:Depends}, php, php-curl, php-yaml, php-soap, composer-debian
 Description: Zabbix monitoring integration for ISPConfig
  This package provides autodiscovery scripts, key readers, and Zabbix templates for monitoring ISPConfig installations via Zabbix.
