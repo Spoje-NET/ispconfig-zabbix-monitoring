@@ -1,0 +1,12 @@
+config/config.php
+logs/
+vendor/
+composer.lock
+.DS_Store
+.vscode/
+.idea/
+*.log
+*.swp
+*.bak
+*~
+composer.phar

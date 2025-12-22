@@ -1,0 +1,25 @@
+{
+    "name": "ispconfig/zabbix-monitoring",
+    "description": "ISPConfig monitoring ecosystem for Zabbix 7.4",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "php": ">=7.4",
+        "ext-json": "*",
+        "ext-soap": "*",
+        "ext-openssl": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "ISPConfigMonitoring\\": "src/lib/"
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "config": {
+        "disable-tls": true
+    }
+}
