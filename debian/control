@@ -2,7 +2,7 @@ Source: ispconfig-zabbix-monitoring
 Section: admin
 Priority: optional
 Maintainer: Spoje-NET <info@spoje.net>
-Build-Depends: debhelper (>= 12), composer, php-cli, php-curl, php-yaml, php-soap
+Build-Depends: debhelper (>= 12), composer, php-cli, php-curl, php-yaml, php-soap, jq, moreutils
 Standards-Version: 4.5.1
 Homepage: https://github.com/Spoje-NET/ispconfig-zabbix-monitoring
 

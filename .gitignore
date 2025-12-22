@@ -18,3 +18,8 @@ debian/ispconfig-zabbix-monitoring.substvars
 debian/ispconfig-zabbix-monitoring.postrm.debhelper
 /nbproject/private/
 .build/
+/.phpunit.result.cache
+.build/php-cs-fixer/.php-cs-fixer.cache
+debian/files
+.gitignore
+nbproject/project.xml

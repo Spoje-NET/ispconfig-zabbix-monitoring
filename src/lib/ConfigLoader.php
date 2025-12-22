@@ -42,8 +42,8 @@ class ConfigLoader
         // Add relative path if provided
         if (!empty($relativePath)) {
             // Get the directory of the calling script
-            $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1);
-            $callerDir = dirname($backtrace[0]['file']);
+            $backtrace = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS, 1);
+            $callerDir = \dirname($backtrace[0]['file']);
             $configLocations[] = $callerDir.'/'.$relativePath;
         }
 
@@ -62,6 +62,7 @@ class ConfigLoader
 
         // No config found
         $searchedLocations = implode(', ', $configLocations);
+
         throw new \RuntimeException("Configuration file not found. Searched locations: {$searchedLocations}");
     }
 

@@ -14,13 +14,13 @@ declare(strict_types=1);
 require_once __DIR__.'/../../vendor/autoload.php';
 
 /**
- * ISPConfig Mail Domains Key Reader Script
- * 
+ * ISPConfig Mail Domains Key Reader Script.
+ *
  * This script retrieves specific metrics for individual mail domains.
  * It's called by Zabbix agent for each discovered mail domain.
- * 
+ *
  * Usage: php mail_domains.php <domain_id> <key>
- * 
+ *
  * Available keys:
  *   - active: Mail domain active status (0/1)
  *   - domain: Domain name
@@ -29,11 +29,10 @@ require_once __DIR__.'/../../vendor/autoload.php';
  *   - account_count: Number of email accounts in domain
  *   - total_quota: Total quota for all accounts
  *   - total_used: Total used space for all accounts
- * 
+ *
  * Example: php mail_domains.php 1 active
  * Output: 1
  */
-
 
 use ISPConfigMonitoring\ISPConfigClient;
 use ISPConfigMonitoring\ISPConfigException;
