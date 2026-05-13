@@ -8,6 +8,7 @@ ispconfig-zabbix-monitoring (0.6.0) UNRELEASED; urgency=medium
   * Add manpage
   * Add PackagingTest covering all packaging artifacts
   * Update README documentation
+  * Add manpages for all launcher scripts
 
  -- Vitex <vitezslav.dvorak@spojenet.cz>  Tue, 13 May 2026 12:00:00 +0200
 

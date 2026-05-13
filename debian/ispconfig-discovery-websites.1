@@ -1,0 +1,37 @@
+.TH ispconfig-discovery-websites 1 "2026-05-13" "0.6.0" "ISPConfig Zabbix Monitoring"
+.SH NAME
+ispconfig-discovery-websites \- discover ISPConfig websites for Zabbix LLD
+.SH SYNOPSIS
+.B ispconfig-discovery-websites
+.SH DESCRIPTION
+.B ispconfig-discovery-websites
+queries the ISPConfig SOAP API and outputs all configured websites in Zabbix
+Low-Level Discovery (LLD) JSON format.
+.PP
+This script is intended to be called by Zabbix Agent 2 via a UserParameter.
+.SH OUTPUT
+JSON object with a
+.B data
+array containing discovered websites with the following macros:
+.TP
+.B {#WEBSITE_ID}
+Website domain ID.
+.TP
+.B {#DOMAIN}
+Domain name.
+.TP
+.B {#SERVER_ID}
+Server ID.
+.SH FILES
+.TP
+.I /etc/ispconfig-zabbix-monitoring/config.php
+Configuration file with ISPConfig API credentials.
+.TP
+.I /usr/lib/ispconfig-zabbix-monitoring/autodiscovery/websites.php
+PHP script executed by this launcher.
+.SH SEE ALSO
+.BR ispconfig-key-websites (1),
+.BR ispconfig-discovery-emails (1),
+.BR ispconfig-discovery-mail-domains (1)
+.SH AUTHOR
+Spoje-NET <info@spoje.net>

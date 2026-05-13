@@ -1,0 +1,43 @@
+.TH ispconfig-discovery-mail-domains 1 "2026-05-13" "0.6.0" "ISPConfig Zabbix Monitoring"
+.SH NAME
+ispconfig-discovery-mail-domains \- discover ISPConfig mail domains for Zabbix LLD
+.SH SYNOPSIS
+.B ispconfig-discovery-mail-domains
+.SH DESCRIPTION
+.B ispconfig-discovery-mail-domains
+queries the ISPConfig SOAP API and outputs all configured mail domains in
+Zabbix Low-Level Discovery (LLD) JSON format.
+.PP
+This script is intended to be called by Zabbix Agent 2 via a UserParameter.
+.SH OUTPUT
+JSON object with a
+.B data
+array containing discovered mail domains with the following macros:
+.TP
+.B {#MAIL_DOMAIN_ID}
+Mail domain ID.
+.TP
+.B {#DOMAIN}
+Domain name.
+.TP
+.B {#SERVER_ID}
+Server ID.
+.TP
+.B {#ACTIVE}
+Active status (1/0).
+.TP
+.B {#CATCH_ALL}
+Catch-all email address.
+.SH FILES
+.TP
+.I /etc/ispconfig-zabbix-monitoring/config.php
+Configuration file with ISPConfig API credentials.
+.TP
+.I /usr/lib/ispconfig-zabbix-monitoring/autodiscovery/mail_domains.php
+PHP script executed by this launcher.
+.SH SEE ALSO
+.BR ispconfig-key-mail-domains (1),
+.BR ispconfig-discovery-websites (1),
+.BR ispconfig-discovery-emails (1)
+.SH AUTHOR
+Spoje-NET <info@spoje.net>

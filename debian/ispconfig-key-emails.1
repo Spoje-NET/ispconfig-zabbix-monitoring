@@ -1,0 +1,67 @@
+.TH ispconfig-key-emails 1 "2026-05-13" "0.6.0" "ISPConfig Zabbix Monitoring"
+.SH NAME
+ispconfig-key-emails \- retrieve ISPConfig email account metrics for Zabbix
+.SH SYNOPSIS
+.B ispconfig-key-emails
+.I email_id
+.I key
+.SH DESCRIPTION
+.B ispconfig-key-emails
+queries the ISPConfig SOAP API for a specific metric of an individual email
+account. It is called by Zabbix Agent 2 for each discovered email account.
+.SH ARGUMENTS
+.TP
+.I email_id
+The numeric email account ID (as discovered by
+.BR ispconfig-discovery-emails (1)).
+.TP
+.I key
+The metric key to retrieve. Available keys:
+.RS
+.TP
+.B active
+Email active status (0/1).
+.TP
+.B email
+Full email address.
+.TP
+.B domain
+Domain name.
+.TP
+.B quota
+Mailbox quota in bytes.
+.TP
+.B used
+Currently used space in bytes.
+.TP
+.B usage_percent
+Quota usage percentage.
+.TP
+.B spamfilter_enabled
+Spam filter enabled (0/1).
+.TP
+.B antivirus_enabled
+Antivirus enabled (0/1).
+.TP
+.B mail_domain_id
+Mail domain ID.
+.TP
+.B server_id
+Server ID.
+.TP
+.B homedir
+Home directory path.
+.RE
+.SH FILES
+.TP
+.I /etc/ispconfig-zabbix-monitoring/config.php
+Configuration file with ISPConfig API credentials.
+.TP
+.I /usr/lib/ispconfig-zabbix-monitoring/keys/emails.php
+PHP script executed by this launcher.
+.SH SEE ALSO
+.BR ispconfig-discovery-emails (1),
+.BR ispconfig-key-websites (1),
+.BR ispconfig-key-mail-domains (1)
+.SH AUTHOR
+Spoje-NET <info@spoje.net>

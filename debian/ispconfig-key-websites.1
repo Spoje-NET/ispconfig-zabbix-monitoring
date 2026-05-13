@@ -1,0 +1,61 @@
+.TH ispconfig-key-websites 1 "2026-05-13" "0.6.0" "ISPConfig Zabbix Monitoring"
+.SH NAME
+ispconfig-key-websites \- retrieve ISPConfig website metrics for Zabbix
+.SH SYNOPSIS
+.B ispconfig-key-websites
+.I website_id
+.I key
+.SH DESCRIPTION
+.B ispconfig-key-websites
+queries the ISPConfig SOAP API for a specific metric of an individual website.
+It is called by Zabbix Agent 2 for each discovered website.
+.SH ARGUMENTS
+.TP
+.I website_id
+The numeric website domain ID (as discovered by
+.BR ispconfig-discovery-websites (1)).
+.TP
+.I key
+The metric key to retrieve. Available keys:
+.RS
+.TP
+.B active
+Website active status (0/1).
+.TP
+.B domain
+Domain name.
+.TP
+.B server_id
+Server ID.
+.TP
+.B document_root
+Document root path.
+.TP
+.B php_version
+PHP version string.
+.TP
+.B ssl_enabled
+SSL enabled status (0/1).
+.TP
+.B traffic
+Traffic in bytes.
+.TP
+.B disk_usage
+Disk usage in bytes.
+.TP
+.B hd_quota
+Hard disk quota in bytes.
+.RE
+.SH FILES
+.TP
+.I /etc/ispconfig-zabbix-monitoring/config.php
+Configuration file with ISPConfig API credentials.
+.TP
+.I /usr/lib/ispconfig-zabbix-monitoring/keys/websites.php
+PHP script executed by this launcher.
+.SH SEE ALSO
+.BR ispconfig-discovery-websites (1),
+.BR ispconfig-key-emails (1),
+.BR ispconfig-key-mail-domains (1)
+.SH AUTHOR
+Spoje-NET <info@spoje.net>

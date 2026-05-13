@@ -16,3 +16,9 @@ LICENSE usr/share/doc/ispconfig-zabbix-monitoring/
 ispconfig-zabbix-monitoring.svg usr/share/icons/hicolor/scalable/apps/
 debian/source/ispconfig-zabbix-monitoring.metainfo.xml usr/share/metainfo/
 debian/ispconfig-zabbix-monitoring.1 usr/share/man/man1/
+debian/ispconfig-discovery-websites.1 usr/share/man/man1/
+debian/ispconfig-discovery-emails.1 usr/share/man/man1/
+debian/ispconfig-discovery-mail-domains.1 usr/share/man/man1/
+debian/ispconfig-key-websites.1 usr/share/man/man1/
+debian/ispconfig-key-emails.1 usr/share/man/man1/
+debian/ispconfig-key-mail-domains.1 usr/share/man/man1/
