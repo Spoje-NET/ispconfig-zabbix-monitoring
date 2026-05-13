@@ -1,3 +1,5 @@
+![ISPConfig Zabbix Monitoring Logo](ispconfig-zabbix-monitoring.svg?raw=true)
+
 # ISPConfig Zabbix Monitoring
 
 This project provides a monitoring ecosystem for ISPConfig using Zabbix 7.4. It includes scripts for autodiscovery and reading individual keys, along with templates for each module, starting with the websites module.

@@ -21,3 +21,15 @@ override_dh_install:
 	# Fix config file paths to use /etc location
 	sed -i "s#__DIR__\.'/.*/config/config\.php'#'/etc/ispconfig-zabbix-monitoring/config.php'#g" debian/ispconfig-zabbix-monitoring/usr/lib/ispconfig-zabbix-monitoring/autodiscovery/*.php
 	sed -i "s#__DIR__\.'/.*/config/config\.php'#'/etc/ispconfig-zabbix-monitoring/config.php'#g" debian/ispconfig-zabbix-monitoring/usr/lib/ispconfig-zabbix-monitoring/keys/*.php
+
+# --- PHP Debian packaging: install autoload.php and inject InstalledVersions info ---
+PKG_VERSION := $(shell dpkg-parsechangelog -S Version | sed 's/~.*//')
+PKG_SOURCE  := $(shell jq -r '.name' composer.json)
+PKG_TYPE    := $(shell jq -r '.type' composer.json)
+	install -m 644 debian/autoload.php debian/ispconfig-zabbix-monitoring/usr/lib/ispconfig-zabbix-monitoring/autoload.php
+	# For type=project (this package): inject APP_NAME and APP_VERSION
+	sed -i "1a defined('APP_NAME') || define('APP_NAME', '$(PKG_SOURCE)');" debian/ispconfig-zabbix-monitoring/usr/lib/ispconfig-zabbix-monitoring/autoload.php
+	sed -i "s|'unknown'|'$(PKG_SOURCE)'|" debian/ispconfig-zabbix-monitoring/usr/lib/ispconfig-zabbix-monitoring/autoload.php
+	sed -i "s|'0.0.0'|'$(PKG_VERSION)'|" debian/ispconfig-zabbix-monitoring/usr/lib/ispconfig-zabbix-monitoring/autoload.php
+	sed -i "s|'library'|'$(PKG_TYPE)'|g" debian/ispconfig-zabbix-monitoring/usr/lib/ispconfig-zabbix-monitoring/autoload.php
+	sed -i "2a defined('APP_VERSION') || define('APP_VERSION', '$(PKG_VERSION)');" debian/ispconfig-zabbix-monitoring/usr/lib/ispconfig-zabbix-monitoring/autoload.php

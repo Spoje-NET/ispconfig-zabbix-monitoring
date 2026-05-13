@@ -7,3 +7,5 @@ config/config.example.php usr/share/doc/ispconfig-zabbix-monitoring/examples/
 config/zabbix_agentd.d/ispconfig-monitoring.conf usr/share/doc/ispconfig-zabbix-monitoring/examples/
 README.md usr/share/doc/ispconfig-zabbix-monitoring/
 LICENSE usr/share/doc/ispconfig-zabbix-monitoring/
+ispconfig-zabbix-monitoring.svg usr/share/icons/hicolor/scalable/apps/
+debian/ispconfig-zabbix-monitoring.1 usr/share/man/man1/
