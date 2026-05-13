@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<component type="desktop-application">
+<component type="console-application">
   <id>ispconfig-zabbix-monitoring</id>
   <name>ISPConfig Zabbix Monitoring</name>
   <summary>Zabbix monitoring integration for ISPConfig</summary>
   <description>
-    <p>This package provides autodiscovery scripts, key readers, and Zabbix templates for monitoring ISPConfig installations via Zabbix.</p>
+    <p>This package provides autodiscovery scripts, key readers, and Zabbix templates for monitoring ISPConfig installations via Zabbix 7.4.</p>
   </description>
   <icon type="stock">ispconfig-zabbix-monitoring</icon>
   <url type="homepage">https://github.com/Spoje-NET/ispconfig-zabbix-monitoring</url>
-  <developer_name>Spoje-NET</developer_name>
+  <developer id="net.spoje">
+    <name>Spoje-NET</name>
+  </developer>
   <project_license>MIT</project_license>
   <provides>
-    <binary>ispconfig-zabbix-monitoring</binary>
+    <binary>ispconfig-discovery-websites</binary>
+    <binary>ispconfig-discovery-emails</binary>
+    <binary>ispconfig-discovery-mail-domains</binary>
+    <binary>ispconfig-key-websites</binary>
+    <binary>ispconfig-key-emails</binary>
+    <binary>ispconfig-key-mail-domains</binary>
   </provides>
   <releases>
-    <release version="1.0.0" date="2026-05-13"/>
+    <release version="0.5.5.30" date="2026-05-13"/>
   </releases>
 </component>

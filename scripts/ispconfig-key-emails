@@ -1,0 +1,3 @@
+#!/bin/sh
+# ISPConfig Zabbix Monitoring - Email Key Reader
+exec /usr/bin/php /usr/lib/ispconfig-zabbix-monitoring/keys/emails.php "$@"

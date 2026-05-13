@@ -3,9 +3,16 @@ src/autodiscovery/* usr/lib/ispconfig-zabbix-monitoring/autodiscovery/
 src/keys/* usr/lib/ispconfig-zabbix-monitoring/keys/
 src/lib/* usr/lib/ispconfig-zabbix-monitoring/lib/
 templates/* usr/lib/ispconfig-zabbix-monitoring/templates/
+scripts/ispconfig-discovery-websites usr/bin/
+scripts/ispconfig-discovery-emails usr/bin/
+scripts/ispconfig-discovery-mail-domains usr/bin/
+scripts/ispconfig-key-websites usr/bin/
+scripts/ispconfig-key-emails usr/bin/
+scripts/ispconfig-key-mail-domains usr/bin/
+config/zabbix_agent2.d/ispconfig-monitoring.conf etc/zabbix/zabbix_agent2.d/
 config/config.example.php usr/share/doc/ispconfig-zabbix-monitoring/examples/
-config/zabbix_agentd.d/ispconfig-monitoring.conf usr/share/doc/ispconfig-zabbix-monitoring/examples/
 README.md usr/share/doc/ispconfig-zabbix-monitoring/
 LICENSE usr/share/doc/ispconfig-zabbix-monitoring/
 ispconfig-zabbix-monitoring.svg usr/share/icons/hicolor/scalable/apps/
+debian/source/ispconfig-zabbix-monitoring.metainfo.xml usr/share/metainfo/
 debian/ispconfig-zabbix-monitoring.1 usr/share/man/man1/

@@ -1,3 +1,16 @@
+ispconfig-zabbix-monitoring (0.6.0) UNRELEASED; urgency=medium
+
+  * Add launcher shell scripts for all autodiscovery and key reader PHP scripts
+  * Add dedicated zabbix_agent2 configuration using launcher scripts
+  * Remove deprecated zabbix_agentd (Zabbix Agent 1) support
+  * Install SVG icon as stock icon in hicolor theme
+  * Add AppStream metainfo metadata
+  * Add manpage
+  * Add PackagingTest covering all packaging artifacts
+  * Update README documentation
+
+ -- Vitex <vitezslav.dvorak@spojenet.cz>  Tue, 13 May 2026 12:00:00 +0200
+
 ispconfig-zabbix-monitoring (0.5.5) UNRELEASED; urgency=medium
 
   * Added missing email and mail domain methods from zabbix-email branch

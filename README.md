@@ -18,8 +18,17 @@ ispconfig-zabbix-monitoring
 │   │   ├── emails.php
 │   │   └── mail_domains.php
 │   └── lib
+│       ├── ConfigLoader.php
 │       ├── ISPConfigClient.php
 │       └── ZabbixHelper.php
+├── scripts
+│   ├── ispconfig-discovery-websites
+│   ├── ispconfig-discovery-emails
+│   ├── ispconfig-discovery-mail-domains
+│   ├── ispconfig-key-websites
+│   ├── ispconfig-key-emails
+│   ├── ispconfig-key-mail-domains
+│   └── install.sh
 ├── templates
 │   ├── websites
 │   │   └── template_ispconfig_websites.yaml
@@ -28,9 +37,8 @@ ispconfig-zabbix-monitoring
 │       └── template_ispconfig_mail_domains.yaml
 ├── config
 │   ├── config.example.php
-│   └── config.php
-├── scripts
-│   └── install.sh
+│   └── zabbix_agent2.d/
+│       └── ispconfig-monitoring.conf
 ├── composer.json
 ├── README.md
 ├── PROJECT_PLAN.md
@@ -66,7 +74,7 @@ The repository with packages for Debian & Ubuntu is available:
 
 ```bash
 sudo apt install lsb-release wget apt-transport-https
-wget -qO- https://repo.vitexsoftware.com/keyring.gpg | sudo tee /etc/apt/trusted.gpg.d/vitexsoftware.gpg
+wget -qO- https://repo.vitexsoftware.com/KEY.gpg | sudo tee /etc/apt/trusted.gpg.d/vitexsoftware.gpg
 echo "deb [signed-by=/etc/apt/trusted.gpg.d/vitexsoftware.gpg] https://repo.vitexsoftware.com $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/vitexsoftware.list
 sudo apt update
 sudo apt install ispconfig-zabbix-monitoring
@@ -106,8 +114,14 @@ sudo dpkg-reconfigure ispconfig-zabbix-monitoring
 
 4. Copy the Zabbix agent configuration:
    ```bash
-   sudo cp config/zabbix_agentd.d/ispconfig-monitoring.conf /etc/zabbix/zabbix_agentd.d/
-   sudo systemctl restart zabbix-agent
+   sudo cp config/zabbix_agent2.d/ispconfig-monitoring.conf /etc/zabbix/zabbix_agent2.d/
+   sudo systemctl restart zabbix-agent2
+   ```
+
+5. Install the launcher scripts:
+   ```bash
+   sudo install -m 755 scripts/ispconfig-discovery-* /usr/bin/
+   sudo install -m 755 scripts/ispconfig-key-* /usr/bin/
    ```
 
 ## Usage
@@ -155,8 +169,7 @@ Import the following templates into Zabbix:
 ## Zabbix Configuration
 
 After installation, the Zabbix agent configuration is automatically installed to:
-- `/etc/zabbix/zabbix_agentd.d/ispconfig-monitoring.conf` (Zabbix Agent 1)
-- `/etc/zabbix/zabbix_agent2.d/ispconfig-monitoring.conf` (Zabbix Agent 2)
+- `/etc/zabbix/zabbix_agent2.d/ispconfig-monitoring.conf`
 
 The following UserParameters are available:
 - `ispconfig.websites.discovery` - Website autodiscovery
