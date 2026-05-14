@@ -175,6 +175,7 @@ zabbix_export:
               manual_close: 'YES'
               dependencies:
                 - name: 'Email {#EMAIL} mailbox usage high (>90%)'
+                  expression: 'last(/ISPConfig Email Accounts/ispconfig.email.usage_percent[{#MAIL_USER_ID}])>90'
               tags:
                 - tag: Email
                   value: '{#EMAIL}'
@@ -189,6 +190,16 @@ zabbix_export:
               type: STACKED
               graph_items:
                 - color: 1A7C11
+                  calc_fnc: ALL
+                  item:
+                    host: 'ISPConfig Email Accounts'
+                    key: 'ispconfig.email.used[{#MAIL_USER_ID}]'
+                - sortorder: '1'
+                  color: F63100
+                  calc_fnc: ALL
+                  item:
+                    host: 'ISPConfig Email Accounts'
+                    key: 'ispconfig.email.quota[{#MAIL_USER_ID}]'
       
       macros:
         - macro: '{$ISPCONFIG.EMAIL.WARN}'
