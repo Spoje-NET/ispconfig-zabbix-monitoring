@@ -67,6 +67,8 @@ class ZabbixHelper
             'php' => '{#PHP_VERSION}',
             'active' => '{#ACTIVE}',
             'ssl' => '{#SSL_ENABLED}',
+            'hd_quota' => '{#HD_QUOTA}',
+            'hd_usage' => '{#HD_USAGE}',
         ];
 
         return $this->formatDiscovery($websites, $macroMap);
