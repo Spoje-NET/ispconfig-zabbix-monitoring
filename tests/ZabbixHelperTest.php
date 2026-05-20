@@ -56,6 +56,8 @@ class ZabbixHelperTest extends TestCase
                 'php' => 'php8.2',
                 'active' => 'y',
                 'ssl' => 'y',
+                'hd_quota' => '10240',
+                'hd_usage' => '4096',
             ],
         ];
 
@@ -65,6 +67,79 @@ class ZabbixHelperTest extends TestCase
         $this->assertCount(1, $result['data']);
         $this->assertEquals('1', $result['data'][0]['{#WEBSITE_ID}']);
         $this->assertEquals('example.com', $result['data'][0]['{#DOMAIN}']);
+        $this->assertEquals('10240', $result['data'][0]['{#HD_QUOTA}']);
+        $this->assertEquals('4096', $result['data'][0]['{#HD_USAGE}']);
+    }
+
+    public function testFormatEmailsDiscovery(): void
+    {
+        $emails = [
+            [
+                'mailuser_id' => '5',
+                'email' => 'user@example.com',
+                'mail_domain_id' => '2',
+                'domain' => 'example.com',
+                'quota' => '1073741824',
+                'used' => '536870912',
+                'active' => 'y',
+                'usage_percent' => '50',
+            ],
+        ];
+
+        $result = $this->helper->formatEmailsDiscovery($emails);
+
+        $this->assertArrayHasKey('data', $result);
+        $this->assertCount(1, $result['data']);
+        $this->assertEquals('5', $result['data'][0]['{#MAIL_USER_ID}']);
+        $this->assertEquals('user@example.com', $result['data'][0]['{#EMAIL}']);
+        $this->assertEquals('2', $result['data'][0]['{#MAIL_DOMAIN_ID}']);
+        $this->assertEquals('example.com', $result['data'][0]['{#DOMAIN}']);
+        $this->assertEquals('1073741824', $result['data'][0]['{#QUOTA}']);
+        $this->assertEquals('536870912', $result['data'][0]['{#USED}']);
+        $this->assertEquals('y', $result['data'][0]['{#ACTIVE}']);
+        $this->assertEquals('50', $result['data'][0]['{#USAGE_PERCENT}']);
+    }
+
+    public function testFormatMailDomainsDiscovery(): void
+    {
+        $domains = [
+            [
+                'domain_id' => '3',
+                'domain' => 'example.com',
+                'server_id' => '1',
+                'active' => 'y',
+                'mail_catchall' => 'admin@example.com',
+            ],
+        ];
+
+        $result = $this->helper->formatMailDomainsDiscovery($domains);
+
+        $this->assertArrayHasKey('data', $result);
+        $this->assertCount(1, $result['data']);
+        $this->assertEquals('3', $result['data'][0]['{#MAIL_DOMAIN_ID}']);
+        $this->assertEquals('example.com', $result['data'][0]['{#DOMAIN}']);
+        $this->assertEquals('1', $result['data'][0]['{#SERVER_ID}']);
+        $this->assertEquals('y', $result['data'][0]['{#ACTIVE}']);
+        $this->assertEquals('admin@example.com', $result['data'][0]['{#CATCH_ALL}']);
+    }
+
+    public function testCalculateEmailUsagePercent(): void
+    {
+        $this->assertEquals(50.0, $this->helper->calculateEmailUsagePercent(512, 1024));
+        $this->assertEquals(100.0, $this->helper->calculateEmailUsagePercent(1024, 1024));
+        $this->assertEquals(0.0, $this->helper->calculateEmailUsagePercent(0, 1024));
+        $this->assertEquals(75.0, $this->helper->calculateEmailUsagePercent(768, 1024));
+    }
+
+    public function testCalculateEmailUsagePercentZeroQuota(): void
+    {
+        $this->assertEquals(0.0, $this->helper->calculateEmailUsagePercent(100, 0));
+    }
+
+    public function testCalculateEmailUsagePercentRounding(): void
+    {
+        $result = $this->helper->calculateEmailUsagePercent(1, 3);
+        $this->assertEquals(33.33, $result);
     }
 
     public function testFormatItemValueNumeric(): void

@@ -1,3 +1,12 @@
+ispconfig-zabbix-monitoring (0.7.0) UNRELEASED; urgency=medium
+
+  * Add formatEmailsDiscovery, formatMailDomainsDiscovery, calculateEmailUsagePercent to ZabbixHelper
+  * Add HD quota and usage macros to website discovery formatting
+  * Add tests for email and mail domain discovery formatting and usage percent calculation
+  * Update README: correct test count (67 tests, 164 assertions)
+
+ -- Vitex <vitezslav.dvorak@spojenet.cz>  Tue, 20 May 2026 12:00:00 +0200
+
 ispconfig-zabbix-monitoring (0.6.0) UNRELEASED; urgency=medium
 
   * Add launcher shell scripts for all autodiscovery and key reader PHP scripts

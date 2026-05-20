@@ -75,6 +75,66 @@ class ZabbixHelper
     }
 
     /**
+     * Format email accounts for Zabbix LLD.
+     *
+     * @param array $emails Array of email records from ISPConfig
+     *
+     * @return array Formatted discovery data
+     */
+    public function formatEmailsDiscovery(array $emails): array
+    {
+        $macroMap = [
+            'mailuser_id' => '{#MAIL_USER_ID}',
+            'email' => '{#EMAIL}',
+            'mail_domain_id' => '{#MAIL_DOMAIN_ID}',
+            'domain' => '{#DOMAIN}',
+            'quota' => '{#QUOTA}',
+            'used' => '{#USED}',
+            'active' => '{#ACTIVE}',
+            'usage_percent' => '{#USAGE_PERCENT}',
+        ];
+
+        return $this->formatDiscovery($emails, $macroMap);
+    }
+
+    /**
+     * Format mail domains for Zabbix LLD.
+     *
+     * @param array $domains Array of mail domain records from ISPConfig
+     *
+     * @return array Formatted discovery data
+     */
+    public function formatMailDomainsDiscovery(array $domains): array
+    {
+        $macroMap = [
+            'domain_id' => '{#MAIL_DOMAIN_ID}',
+            'domain' => '{#DOMAIN}',
+            'server_id' => '{#SERVER_ID}',
+            'active' => '{#ACTIVE}',
+            'mail_catchall' => '{#CATCH_ALL}',
+        ];
+
+        return $this->formatDiscovery($domains, $macroMap);
+    }
+
+    /**
+     * Calculate email mailbox usage percentage.
+     *
+     * @param int $used  Used bytes
+     * @param int $quota Quota in bytes (must be > 0)
+     *
+     * @return float Usage percentage (0–100)
+     */
+    public function calculateEmailUsagePercent(int $used, int $quota): float
+    {
+        if ($quota <= 0) {
+            return 0.0;
+        }
+
+        return round(($used / $quota) * 100, 2);
+    }
+
+    /**
      * Format item value for Zabbix item key.
      *
      * @param mixed  $value Raw value

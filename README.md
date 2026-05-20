@@ -188,11 +188,13 @@ composer install
 vendor/bin/phpunit
 ```
 
-42 tests with 82 assertions covering:
+67 tests with 164 assertions covering:
 - ISPConfigClient configuration validation and error handling
-- ZabbixHelper data formatting and discovery
+- ZabbixHelper data formatting and discovery (websites, emails, mail domains)
+- Email usage percentage calculation
 - Value conversion (numeric, boolean, bytes, timestamps)
 - LLD data validation
+- Packaging artifacts (launcher scripts, Zabbix config, AppStream metadata)
 
 ## License
 
