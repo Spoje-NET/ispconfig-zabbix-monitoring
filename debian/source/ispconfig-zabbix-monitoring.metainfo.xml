@@ -21,6 +21,6 @@
     <binary>ispconfig-key-mail-domains</binary>
   </provides>
   <releases>
-    <release version="0.5.5.30" date="2026-05-13"/>
+    <release version="0.7.0" date="2026-05-20"/>
   </releases>
 </component>

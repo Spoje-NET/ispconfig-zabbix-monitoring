@@ -174,6 +174,26 @@ class PackagingTest extends TestCase
         $this->assertContains('ispconfig-key-mail-domains', $binaries);
     }
 
+    public function testAppstreamMetadataReleaseVersionMatchesChangelog(): void
+    {
+        $path = $this->projectRoot . '/debian/source/ispconfig-zabbix-monitoring.metainfo.xml';
+        $xml = simplexml_load_file($path);
+
+        $metainfoVersion = (string) $xml->releases->release['version'];
+
+        // Parse the topmost version from debian/changelog
+        $changelog = file_get_contents($this->projectRoot . '/debian/changelog');
+        preg_match('/^ispconfig-zabbix-monitoring \(([^)]+)\)/m', $changelog, $matches);
+        $changelogVersion = $matches[1] ?? '';
+
+        $this->assertNotEmpty($metainfoVersion, 'Metainfo release version is empty');
+        $this->assertEquals(
+            $changelogVersion,
+            $metainfoVersion,
+            "Metainfo release version ({$metainfoVersion}) does not match debian/changelog ({$changelogVersion})"
+        );
+    }
+
     // --- SVG Icon ---
 
     public function testSvgIconExists(): void

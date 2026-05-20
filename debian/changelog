@@ -3,7 +3,11 @@ ispconfig-zabbix-monitoring (0.7.0) UNRELEASED; urgency=medium
   * Add formatEmailsDiscovery, formatMailDomainsDiscovery, calculateEmailUsagePercent to ZabbixHelper
   * Add HD quota and usage macros to website discovery formatting
   * Add tests for email and mail domain discovery formatting and usage percent calculation
-  * Update README: correct test count (67 tests, 164 assertions)
+  * Update README: correct test count (68 tests, 166 assertions)
+  * Use ispconfig-zabbix-monitoring.svg as AppStream metadata stock icon
+  * Add Recommends: hicolor-icon-theme for runtime icon cache resolution
+  * Fix stale metainfo release version (now tracks debian/changelog automatically)
+  * Add PackagingTest: metainfo release version must match debian/changelog
 
  -- Vitex <vitezslav.dvorak@spojenet.cz>  Tue, 20 May 2026 12:00:00 +0200
 
